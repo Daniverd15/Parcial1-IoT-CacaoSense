@@ -83,7 +83,11 @@ def creds():
         key = res.get("symmetricKey", {}).get("primaryKey", "")
         lines.append(f"{d['id'].upper().replace('-', '_')}_DEVICE_KEY={key}")
     lines.insert(1, f"IOTC_ID_SCOPE={scope}")
-    (ROOT / "senders" / ".env").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    env = ROOT / "senders" / ".env"
+    if env.exists():   # conservar variables que no son claves de dispositivo (token de API, coordenadas)
+        lines += [l for l in env.read_text(encoding="utf-8-sig").splitlines()
+                  if "=" in l and not l.startswith("#") and not l.startswith("IOTC_ID_SCOPE") and "_DEVICE_KEY=" not in l]
+    env.write_text("\n".join(lines) + "\n", encoding="utf-8")
     print("senders/.env escrito para", len(lines) - 2, "dispositivos (valores no mostrados)")
 
 

@@ -12,14 +12,14 @@ App: `https://cacaosense-unab2026.azureiotcentral.com` · VM: `vm-parcial1-cacao
 |---|---|---|---|---|---|
 | 01 | cacao-01-lote1-twin | Lote 1 | Digital Twin / simulador nativo | interno IoT Central | ~75 s |
 | 02 | cacao-02-lote2-wokwi | Lote 2 | Wokwi ESP32 #1 (PubSubClient) | MQTT/TLS 8883 | 15 s |
-| 03 | cacao-03-lote3-python | Lote 3 | Python `azure-iot-device` | MQTT/TLS (SDK) | 15 s (writable) |
-| 04 | cacao-04-aire-api | Aire rural | API pública Open-Meteo Air Quality (CAMS) | HTTPS → MQTT | 300 s |
-| 05 | cacao-05-meteo-atlas | Meteorología | Feed Open-Meteo (equivalente Atlas Weather) | HTTPS → MQTT | 300 s |
-| 06 | cacao-06-fermenta-mqtt | Fermentación | MQTT explícito `paho-mqtt` | MQTT/TLS QoS 1 | 60 s |
-| 07 | cacao-07-campo-replay | Estación de campo | Replay CSV histórico (ERA5) | MQTT/TLS (SDK) | 30 s |
-| 08 | cacao-08-dosel-https | Dosel | Puente HTTP/REST | HTTPS 443 | 60 s |
+| 03 | cacao-03-lote3-sdk | Lote 3 | Python `azure-iot-device` | MQTT/TLS (SDK) | 15 s (writable) |
+| 04 | cacao-04-aire-cams | Aire rural | API pública Open-Meteo Air Quality (CAMS) | HTTPS → MQTT | 300 s |
+| 05 | cacao-05-meteo-feed | Meteorología | Feed Open-Meteo (equivalente Atlas Weather) | HTTPS → MQTT | 300 s |
+| 06 | cacao-06-ferm-paho | Fermentación | MQTT explícito `paho-mqtt` | MQTT/TLS QoS 1 | 60 s |
+| 07 | cacao-07-campo-era5 | Estación de campo | Replay CSV histórico (ERA5) | MQTT/TLS (SDK) | 30 s |
+| 08 | cacao-08-dosel-rest | Dosel | Puente HTTP/REST | HTTPS 443 | 60 s |
 | 09 | cacao-09-riego-wokwi | Reservorio | Wokwi ESP32 #2 (firmware riego) | MQTT/TLS 8883 | 30 s |
-| 10 | cacao-10-bodega-node | Bodega | Node.js `mqtt` (MQTT.js) + puesto de mando | MQTT/TLS 8883 | 20 s |
+| 10 | cacao-10-bodega-mqttjs | Bodega | Node.js `mqtt` (MQTT.js) + puesto de mando | MQTT/TLS 8883 | 20 s |
 
 ## Estructura
 
@@ -59,7 +59,7 @@ con `&skn=registration`. Implementado en `senders/common.py` (Python), `node/bod
 ```bash
 cd senders && cp .env.example .env         # completar ID Scope y claves de dispositivo
 python -m pip install -r requirements.txt   # azure-iot-device, paho-mqtt<2
-python sdk_device.py cacao-03-lote3-python  # nodo 03 (uno de los dos códigos de la sustentación)
+python sdk_device.py cacao-03-lote3-sdk  # nodo 03 (uno de los dos códigos de la sustentación)
 python mqtt_explicit.py                     # nodo 06
 python https_bridge.py                      # nodo 08
 cd node && npm ci && node bodega.js         # nodo 10
@@ -77,5 +77,7 @@ IoT Central → dispositivo → Conectar.
 ## Nota de transparencia
 
 El 24/09/2026 se probó la carga diferida (store-and-forward con `iothub-creation-time-utc`, `senders/backfill.py`) con fechas
-18, 20 y 22/09. Esos datos de prueba permanecen en la app, pero el análisis y el informe usan **solo los 4 días recibidos en vivo**
-(24, 25, 26 y 27/09/2026).
+18, 20 y 22/09. Para que la app conserve solo datos recibidos en vivo, los 7 dispositivos de esa prueba se eliminaron y la flota
+se re-aprovisionó con IDs nuevos (`tools/rename_ids.py`). El análisis y el informe usan **solo los 4 días recibidos en vivo**
+(24, 25, 26 y 27/09/2026). Los datos de los nodos 01 (Digital Twin) y los modelos de señal de `farm.py` son simulados, como permite
+el enunciado; los de los nodos 04, 05 y 07 provienen de fuentes públicas reales (Open-Meteo/CAMS/ERA5).

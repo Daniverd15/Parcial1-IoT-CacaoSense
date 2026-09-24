@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Emisor con el SDK oficial azure-iot-device (DPS + MQTT/TLS) para los nodos 03, 04, 05 y 07.
 
-  python sdk_device.py cacao-03-lote3-python      # Lote 3: suelo, comando setIrrigation, property writable
-  python sdk_device.py cacao-04-aire-api          # puente API publica Open-Meteo Air Quality (CAMS)
-  python sdk_device.py cacao-05-meteo-atlas       # feed meteorologico Open-Meteo (equivalente Atlas Weather)
-  python sdk_device.py cacao-07-campo-replay      # replay del CSV historico de la estacion de campo
+  python sdk_device.py cacao-03-lote3-sdk      # Lote 3: suelo, comando setIrrigation, property writable
+  python sdk_device.py cacao-04-aire-cams          # puente API publica Open-Meteo Air Quality (CAMS)
+  python sdk_device.py cacao-05-meteo-feed       # feed meteorologico Open-Meteo (equivalente Atlas Weather)
+  python sdk_device.py cacao-07-campo-era5      # replay del CSV historico de la estacion de campo
 
 Opciones: --count N (termina tras N mensajes), --interval S (sobrescribe el intervalo del catalogo).
 Credenciales: senders/.env (IOTC_ID_SCOPE y <DEVICE>_DEVICE_KEY). Nunca se imprimen.
@@ -49,14 +49,14 @@ def load_replay() -> list[dict]:
 
 def sample(dev: str, st: State) -> dict:
     now = datetime.now(timezone.utc)
-    if dev == "cacao-03-lote3-python":
+    if dev == "cacao-03-lote3-sdk":
         d = farm.soil(now, 3, st.irrigation)
         return {k: d[k] for k in ("soilMoisture", "soilTemperature", "soilEC", "illuminance")}
-    if dev == "cacao-04-aire-api":
+    if dev == "cacao-04-aire-cams":
         return feeds.current("air")
-    if dev == "cacao-05-meteo-atlas":
+    if dev == "cacao-05-meteo-feed":
         return feeds.current("weather")
-    if dev == "cacao-07-campo-replay":
+    if dev == "cacao-07-campo-era5":
         row = st.replay[st.seq % len(st.replay)]
         return {"rainfall": float(row["rainfall"]), "leafWetness": float(row["leafWetness"]),
                 "humidity": float(row["humidity"]), "sourceKind": "historical_replay",
@@ -75,7 +75,7 @@ def main() -> None:
     load_env()
     cfg = DeviceConfig.from_env(dev)
     st = State(args.interval or meta["intervalSec"])
-    if dev == "cacao-07-campo-replay":
+    if dev == "cacao-07-campo-era5":
         st.replay = load_replay()
 
     log(dev, f"{VERSION} | origen: {meta['source']} | intervalo {st.interval}s")

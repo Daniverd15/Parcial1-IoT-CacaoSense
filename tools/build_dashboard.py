@@ -82,8 +82,8 @@ Ver *Rules* para el historial de disparos."""
 
 def TILES(soil):
     """Cuadricula de 6 columnas (unidad ~ 1/6 del ancho visible en IoT Central)."""
-    riego, bodega = ["cacao-09-riego-wokwi"], ["cacao-10-bodega-node"]
-    meteo, aire, ferm = ["cacao-05-meteo-atlas"], ["cacao-04-aire-api"], ["cacao-06-fermenta-mqtt"]
+    riego, bodega = ["cacao-09-riego-wokwi"], ["cacao-10-bodega-mqttjs"]
+    meteo, aire, ferm = ["cacao-05-meteo-feed"], ["cacao-04-aire-cams"], ["cacao-06-ferm-paho"]
     return [
         md("CacaoSense | Cuarto de control", "**Granja y cultivo de cacao - Rionegro (Santander).** 10 nodos, 10 origenes "
            "de envio. Clima, aforo de agua, suelo, poscosecha y accesos de un vistazo.", 0, 0, 2, 1),
@@ -101,16 +101,16 @@ def TILES(soil):
         line("Meteorologia: temperatura y humedad", "grp-clima", meteo, ["temperature", "humidity"], 0, 4, w=3, h=2, duration="PT12H", res="PT10M"),
         line("Fermentacion: temperatura de masa (C)", "grp-poscosecha", ferm, ["boxTemperature"], 3, 4, w=3, h=2, duration="PT12H", res="PT10M"),
         line("Calidad de aire PM2.5 / PM10", "grp-clima", aire, ["pm25", "pm10"], 0, 6, w=3, h=2, duration="PT12H", res="PT10M"),
-        line("Lluvia y humectacion foliar", "grp-clima", meteo + ["cacao-07-campo-replay"], ["rainfall", "leafWetness"], 3, 6, w=3, h=2, duration="PT12H", res="PT10M"),
+        line("Lluvia y humectacion foliar", "grp-clima", meteo + ["cacao-07-campo-era5"], ["rainfall", "leafWetness"], 3, 6, w=3, h=2, duration="PT12H", res="PT10M"),
         line("Reservorio (%) y caudal (L/min)", "grp-riego", riego, ["waterLevel", "flowRate"], 0, 8, w=3, h=2, duration="PT12H", res="PT10M"),
-        line("Dosel: temperatura y HR bajo sombra", "grp-poscosecha", ["cacao-08-dosel-https"], ["temperature", "humidity"], 3, 8, w=3, h=2, duration="PT12H", res="PT10M"),
+        line("Dosel: temperatura y HR bajo sombra", "grp-poscosecha", ["cacao-08-dosel-rest"], ["temperature", "humidity"], 3, 8, w=3, h=2, duration="PT12H", res="PT10M"),
         md("Mapa de zonas (dispositivo -> lugar)", ZONE_MAP, 0, 10, 3, 3),
         md("Alertas y reglas", ALERTS, 3, 10, 3, 3, href="/rules"),
     ]
 
 
 def dashboard():
-    soil = ["cacao-01-lote1-twin", "cacao-02-lote2-wokwi", "cacao-03-lote3-python"]
+    soil = ["cacao-01-lote1-twin", "cacao-02-lote2-wokwi", "cacao-03-lote3-sdk"]
     tiles = TILES(soil)
     body = {"displayName": "Cuarto de control CacaoSense", "tiles": tiles, "favorite": True}
     st, res = call("PUT", "/dashboards/dtmi:cacaosense:controlroom", body, api="2022-10-31-preview")

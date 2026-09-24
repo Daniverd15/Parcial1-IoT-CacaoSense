@@ -14,3 +14,12 @@
 2026-09-24 20:32:08 [cacao-03-lote3-python] [PROP] samplingIntervalSec -> 20s (writable property sincronizada)
 2026-09-24 20:50:27 [cacao-03-lote3-python] [HUB] estado de conexion: DISCONNECTED
 2026-09-24 20:50:27 [cacao-03-lote3-python] [HUB] estado de conexion: CONNECTED
+2026-09-24 21:25:45 [cacao-03-lote3-python] [FIN] desconexion controlada
+2026-09-24 21:25:45 [cacao-03-lote3-python] [HUB] estado de conexion: DISCONNECTED
+2026-09-24 21:25:45 [cacao-06-fermenta-mqtt] [FIN] DISCONNECT controlado
+2026-09-24 21:25:45 [cacao-10-bodega-node] [FIN] DISCONNECT controlado
+2026-09-24 21:25:46 [cacao-06-fermenta-mqtt] [HUB] DISCONNECTED rc=0; paho reintenta con backoff
+2026-09-24 21:29:56 [cacao-06-ferm-paho] [HUB] CONNACK rc=0 (CONNECTED) iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883
+2026-09-24 21:29:56 [cacao-03-lote3-sdk] [HUB] estado de conexion: CONNECTED
+2026-09-24 21:29:56 [cacao-10-bodega-mqttjs] [HUB] CONNECTED iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883
+2026-09-24 21:29:56 [cacao-03-lote3-sdk] [HUB] CONNECTED a iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883 como 'cacao-03-lote3-sdk'

@@ -8,7 +8,7 @@ Todo el protocolo a la vista (continuacion del Lab 3):
   4) PUBLISH QoS 1 a devices/{id}/messages/events/  (+ property bag opcional)
   5) Metodos directos: $iothub/methods/POST/#  (setAlertLed)
 
-  python mqtt_explicit.py cacao-06-fermenta-mqtt [--count N] [--interval S]
+  python mqtt_explicit.py cacao-06-ferm-paho [--count N] [--interval S]
 El modulo tambien expone connect() y publish() que usa backfill.py (store-and-forward).
 """
 from __future__ import annotations
@@ -124,7 +124,7 @@ def publish(c, dev: str, data: dict, created: str | None = None, qos: int = 1):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("device", nargs="?", default="cacao-06-fermenta-mqtt")
+    ap.add_argument("device", nargs="?", default="cacao-06-ferm-paho")
     ap.add_argument("--count", type=int, default=0)
     ap.add_argument("--interval", type=int, default=0)
     args = ap.parse_args()

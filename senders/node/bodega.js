@@ -10,12 +10,12 @@ const path = require('path');
 const mqtt = require('mqtt');
 
 const VERSION = 'bodega.js v1.0.0';
-const DEV = 'cacao-10-bodega-node';
+const DEV = 'cacao-10-bodega-mqttjs';
 const env = Object.fromEntries(fs.readFileSync(path.join(__dirname, '..', '.env'), 'utf8')
   .split(/\r?\n/).filter(l => l && !l.startsWith('#') && l.includes('='))
   .map(l => [l.slice(0, l.indexOf('=')).trim(), l.slice(l.indexOf('=') + 1).trim()]));
 const SCOPE = env.IOTC_ID_SCOPE;
-const KEY = env.CACAO_10_BODEGA_NODE_DEVICE_KEY;
+const KEY = env.CACAO_10_BODEGA_MQTTJS_DEVICE_KEY;
 const arg = n => { const i = process.argv.indexOf(n); return i > 0 ? Number(process.argv[i + 1]) : 0; };
 const COUNT = arg('--count');
 let interval = (arg('--interval') || 20) * 1000;

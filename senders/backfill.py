@@ -28,13 +28,13 @@ DAYS = ["2026-09-18", "2026-09-20", "2026-09-22"]
 COL = farm.COL
 # dispositivo: (paso en minutos, {dia: [(hora_ini, hora_fin), ...] en hora local})
 PLAN = {
-    "cacao-03-lote3-python":  (10, {"2026-09-18": [(0, 13), (15.5, 24)], "2026-09-20": [(6, 24)], "2026-09-22": [(0, 24)]}),
-    "cacao-04-aire-api":      (60, {d: [(0, 24)] for d in DAYS}),
-    "cacao-05-meteo-atlas":   (60, {d: [(0, 24)] for d in DAYS}),
-    "cacao-06-fermenta-mqtt": (15, {"2026-09-18": [(0, 24)], "2026-09-20": [(0, 9), (11, 24)], "2026-09-22": [(0, 24)]}),
-    "cacao-07-campo-replay":  (60, {"2026-09-18": [(0, 24)], "2026-09-20": [(0, 24)], "2026-09-22": [(0, 5), (8, 24)]}),
-    "cacao-08-dosel-https":   (20, {"2026-09-18": [(5, 19)], "2026-09-20": [(5, 19)], "2026-09-22": [(5, 19)]}),
-    "cacao-10-bodega-node":   (10, {"2026-09-18": [(6, 20)], "2026-09-20": [(7, 13)], "2026-09-22": [(6, 20)]}),
+    "cacao-03-lote3-sdk":  (10, {"2026-09-18": [(0, 13), (15.5, 24)], "2026-09-20": [(6, 24)], "2026-09-22": [(0, 24)]}),
+    "cacao-04-aire-cams":      (60, {d: [(0, 24)] for d in DAYS}),
+    "cacao-05-meteo-feed":   (60, {d: [(0, 24)] for d in DAYS}),
+    "cacao-06-ferm-paho": (15, {"2026-09-18": [(0, 24)], "2026-09-20": [(0, 9), (11, 24)], "2026-09-22": [(0, 24)]}),
+    "cacao-07-campo-era5":  (60, {"2026-09-18": [(0, 24)], "2026-09-20": [(0, 24)], "2026-09-22": [(0, 5), (8, 24)]}),
+    "cacao-08-dosel-rest":   (20, {"2026-09-18": [(5, 19)], "2026-09-20": [(5, 19)], "2026-09-22": [(5, 19)]}),
+    "cacao-10-bodega-mqttjs":   (10, {"2026-09-18": [(6, 20)], "2026-09-20": [(7, 13)], "2026-09-22": [(6, 20)]}),
 }
 
 
@@ -62,22 +62,22 @@ def main():
                 while t < base + timedelta(hours=h1):
                     hour_key = iso(t.replace(minute=0, second=0))
                     w, a = weather.get(hour_key), air.get(hour_key)
-                    if dev == "cacao-03-lote3-python":
+                    if dev == "cacao-03-lote3-sdk":
                         s = farm.soil(t, 3)
                         data = {k: s[k] for k in ("soilMoisture", "soilTemperature", "soilEC", "illuminance")}
-                    elif dev == "cacao-04-aire-api" and a and w:
+                    elif dev == "cacao-04-aire-cams" and a and w:
                         data = {**a, "humidity": w["humidity"], "sourceKind": "public_api_model", "sourceTimestamp": hour_key}
-                    elif dev == "cacao-05-meteo-atlas" and w:
+                    elif dev == "cacao-05-meteo-feed" and w:
                         data = {**w, "sourceKind": "public_api_model", "sourceTimestamp": hour_key}
-                    elif dev == "cacao-06-fermenta-mqtt":
+                    elif dev == "cacao-06-ferm-paho":
                         data = farm.fermentation(t)
-                    elif dev == "cacao-07-campo-replay" and w:
+                    elif dev == "cacao-07-campo-era5" and w:
                         data = {"rainfall": w["rainfall"], "humidity": w["humidity"],
                                 "leafWetness": farm.leaf_wetness(w["rainfall"], w["humidity"]),
                                 "sourceKind": "historical_replay", "sourceTimestamp": hour_key}
-                    elif dev == "cacao-08-dosel-https":
+                    elif dev == "cacao-08-dosel-rest":
                         data = farm.canopy(t, w)
-                    elif dev == "cacao-10-bodega-node":
+                    elif dev == "cacao-10-bodega-mqttjs":
                         data = farm.warehouse(t, sent)
                     else:
                         data = None

@@ -21,7 +21,7 @@ import farm
 import feeds
 from common import DEVICES, DeviceConfig, load_env, provision_https, sas_token
 
-DEV = "cacao-08-dosel-https"
+DEV = "cacao-08-dosel-rest"
 VERSION = "https_bridge.py v1.0.0"
 
 

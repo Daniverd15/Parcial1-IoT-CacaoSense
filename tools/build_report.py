@@ -40,14 +40,14 @@ AUTORES = "Daniel Villamizar · Tomás Urieles"
 DATASHEET = {
     "cacao-01-lote1-twin": "METER TEROS 12",
     "cacao-02-lote2-wokwi": "TEROS 12 (pot.), AM2302, BH1750",
-    "cacao-03-lote3-python": "METER TEROS 12, ROHM BH1750",
-    "cacao-04-aire-api": "Sensirion SPS30 (ref.), EPA US AQI",
-    "cacao-05-meteo-atlas": "Vaisala WXT530, Apogee SP-110-SS",
-    "cacao-06-fermenta-mqtt": "Maxim DS18B20, celda de carga + HX711",
-    "cacao-07-campo-replay": "METER PHYTOS 31, WXT530",
-    "cacao-08-dosel-https": "AM2302/DHT22, ROHM BH1750",
+    "cacao-03-lote3-sdk": "METER TEROS 12, ROHM BH1750",
+    "cacao-04-aire-cams": "Sensirion SPS30 (ref.), EPA US AQI",
+    "cacao-05-meteo-feed": "Vaisala WXT530, Apogee SP-110-SS",
+    "cacao-06-ferm-paho": "Maxim DS18B20, celda de carga + HX711",
+    "cacao-07-campo-era5": "METER PHYTOS 31, WXT530",
+    "cacao-08-dosel-rest": "AM2302/DHT22, ROHM BH1750",
     "cacao-09-riego-wokwi": "MaxBotix MB7389 (HC-SR04), DFRobot SEN0217",
-    "cacao-10-bodega-node": "Littelfuse 59025, Panasonic EKMB1101112",
+    "cacao-10-bodega-mqttjs": "Littelfuse 59025, Panasonic EKMB1101112",
 }
 # variable: (unidad, sensor, rango datasheet, rango operativo, precision, umbral Rule, valor en el codigo)
 PARAMS = [
@@ -78,12 +78,12 @@ PARAMS = [
     ("fleetConnected / Disconnected / Unassociated", "nodos", "Puesto de mando (heartbeat)", "0–10", "0–10", "N/A", "R7: Disconnected > 0 (máx. 15 min)",
      "Connected si hay mensaje en max(3×intervalo, 5 min)"),
 ]
-KEY_VARS = [("cacao-03-lote3-python", "soilMoisture", "% VWC"), ("cacao-01-lote1-twin", "soilMoisture", "% VWC"),
-            ("cacao-02-lote2-wokwi", "soilMoisture", "% VWC"), ("cacao-05-meteo-atlas", "temperature", "°C"),
-            ("cacao-05-meteo-atlas", "humidity", "% HR"), ("cacao-05-meteo-atlas", "rainfall", "mm"),
-            ("cacao-05-meteo-atlas", "radiation", "W/m²"), ("cacao-04-aire-api", "pm25", "µg/m³"),
-            ("cacao-04-aire-api", "aqi", "índice"), ("cacao-06-fermenta-mqtt", "boxTemperature", "°C"),
-            ("cacao-09-riego-wokwi", "waterLevel", "%"), ("cacao-08-dosel-https", "temperature", "°C")]
+KEY_VARS = [("cacao-03-lote3-sdk", "soilMoisture", "% VWC"), ("cacao-01-lote1-twin", "soilMoisture", "% VWC"),
+            ("cacao-02-lote2-wokwi", "soilMoisture", "% VWC"), ("cacao-05-meteo-feed", "temperature", "°C"),
+            ("cacao-05-meteo-feed", "humidity", "% HR"), ("cacao-05-meteo-feed", "rainfall", "mm"),
+            ("cacao-05-meteo-feed", "radiation", "W/m²"), ("cacao-04-aire-cams", "pm25", "µg/m³"),
+            ("cacao-04-aire-cams", "aqi", "índice"), ("cacao-06-ferm-paho", "boxTemperature", "°C"),
+            ("cacao-09-riego-wokwi", "waterLevel", "%"), ("cacao-08-dosel-rest", "temperature", "°C")]
 SHOTS = [
     ("01-dashboard-control-room-a.png", "Cuarto de control CacaoSense: estado de flota, clima, aire, riego, KPI mín./máx. y gráficos."),
     ("01-dashboard-control-room-b.png", "Cuarto de control (continuación): gráficos, mapa de zonas y bloque de alertas."),
@@ -244,7 +244,7 @@ def observed_intervals(df):
 def reading(df):
     """Lectura operativa de los extremos (texto generado desde los datos)."""
     txt = []
-    m = df[df.device == "cacao-05-meteo-atlas"]
+    m = df[df.device == "cacao-05-meteo-feed"]
     for day in DAYS:
         s = m[m.day == day]
         if s.empty:
@@ -254,18 +254,18 @@ def reading(df):
         txt.append(f"{DIAS_ES[day]}: la temperatura máxima del predio fue {tmax.temperature:.1f} °C a las "
                    f"{tmax.ts.tz_convert(COL):%H:%M} (radiación {tmax.radiation:.0f} W/m²), la mínima {s.temperature.min():.1f} °C "
                    f"de madrugada; lluvia acumulada {rain:.1f} mm y HR máxima {s.humidity.max():.0f} %.")
-    s3 = df[df.device == "cacao-03-lote3-python"]
+    s3 = df[df.device == "cacao-03-lote3-sdk"]
     if len(s3):
         dry = (s3.soilMoisture < 20).mean() * 100
         txt.append(f"Suelo Lote 3: {dry:.0f} % de las muestras quedaron por debajo del umbral académico de 20 % VWC; "
                    f"el mínimo ({s3.soilMoisture.min():.1f} %) ocurre al final de la tarde por evapotranspiración, y el comando "
                    f"setIrrigation lo eleva ~6 puntos. Es la condición que dispara R1 (suelo seco).")
-    f = df[df.device == "cacao-06-fermenta-mqtt"]
+    f = df[df.device == "cacao-06-ferm-paho"]
     if len(f):
         txt.append(f"Fermentación: la masa pasó de {f.boxTemperature.min():.1f} °C a {f.boxTemperature.max():.1f} °C, coherente con "
                    f"el perfil ICCO/AGROSAVIA (40–50 °C tras 48–96 h); no superó el umbral R2 de 52 °C, por lo que no hubo alarma de "
                    f"sobrefermentación. La masa bajó de {f['mass'].max():.1f} a {f['mass'].min():.1f} kg por pérdida de exudado.")
-    a = df[df.device == "cacao-04-aire-api"]
+    a = df[df.device == "cacao-04-aire-cams"]
     if len(a):
         txt.append(f"Aire rural: PM2.5 entre {a.pm25.min():.1f} y {a.pm25.max():.1f} µg/m³ y US AQI máximo {a.aqi.max():.0f} "
                    f"(categoría {'buena' if a.aqi.max() <= 50 else 'moderada' if a.aqi.max() <= 100 else 'dañina para sensibles'}); "
@@ -450,8 +450,8 @@ def build():
     g = gaps(df)
     table(doc, ["Nodo", "Día", "Desde", "Hasta", "Duración"], g[:40] or [["—", "—", "—", "—", "—"]], widths=[5, 3, 2.5, 2.5, 2.5], font=8)
     para(doc, "Desconexiones programadas en la VM (cron, hora local): nodo 06 02:00–02:30, nodo 10 03:00–03:10, nodo 08 12:00–12:20 "
-              "(corte de enlace simulado) y nodo 03 16:00–16:15. Además hay una desconexión controlada del nodo 03 el 24/09 de "
-              "14:42 a 14:52 y los huecos propios de los nodos Wokwi (solo transmiten mientras la simulación está abierta).", 9)
+              "(corte de enlace simulado) y nodo 03 16:00–16:15. Los nodos Wokwi presentan además huecos propios: solo transmiten "
+              "mientras la simulación está abierta, y la sustentación reproduce una desconexión y reconexión en vivo.", 9)
     fig(doc, EV / "09-desconectado.png", "Figura 12. Estado Desconectado en IoT Central.", crop_browser=True)
     logs = vm_logs()
     if logs:
@@ -481,7 +481,7 @@ def build():
     doc.add_heading("9. Sustentación: dos códigos en dos equipos", 1)
     bullets(doc, [
         "Equipo A (portátil): detener el servicio del nodo 03 en la VM (sudo systemctl stop cacao-03) y ejecutar "
-        "python senders/sdk_device.py cacao-03-lote3-python; en IoT Central se ve Connecting → Connected → telemetría cada 15 s.",
+        "python senders/sdk_device.py cacao-03-lote3-sdk; en IoT Central se ve Connecting → Connected → telemetría cada 15 s.",
         "Equipo B: abrir los proyectos Wokwi (lote2_suelo y riego) y pulsar Play; el monitor serie muestra WiFi → NTP → DPS → HUB CONNECTED → TX.",
         "Comandos en vivo: setIrrigation(true) al Lote 3 (sube la humedad ~6 puntos) y setPump(true) al Wokwi #2 (LED azul encendido; rechazo si el nivel < 10 %).",
         "Desconexión controlada: Ctrl+C en el portátil o Stop en Wokwi → hueco en la serie y R7 (fleetDisconnected > 0) → reconexión automática al reanudar.",
@@ -505,8 +505,9 @@ def build():
         "Limitación: el simulador nativo genera valores aleatorios salvo que el DTDL declare minValue/maxValue; IoT Hub no soporta QoS 2; "
         "los dispositivos HTTPS no mantienen sesión, por lo que su estado 'Connected' no es observable.",
         "Nota de transparencia: el 24/09 se probó la carga diferida (store-and-forward, propiedad iothub-creation-time-utc) con fechas "
-        "18, 20 y 22/09. Esos datos de prueba permanecen en la aplicación, pero NO se usan en este documento: la ventana analizada son "
-        "solo los 4 días con datos recibidos en vivo.",
+        "18, 20 y 22/09; esos 7 dispositivos de prueba se eliminaron y la flota se re-aprovisionó con IDs nuevos, de modo que la ventana "
+        "analizada contiene solo datos recibidos en vivo. Los nodos 01 (Digital Twin) y los modelos de farm.py son simulados, como admite "
+        "el enunciado; los nodos 04, 05 y 07 usan fuentes públicas reales (Open-Meteo, CAMS, ERA5).",
     ])
 
     # ---------------- 11 Referencias

@@ -120,7 +120,7 @@ def four_day_panels(df, device, var, title, unit, fname, color=BROWN):
 def soil_all(df):
     fig, axes = plt.subplots(1, 4, figsize=(15, 3.6), sharey=True)
     for ax, day in zip(axes, DAYS):
-        for i, dev in enumerate(["cacao-01-lote1-twin", "cacao-02-lote2-wokwi", "cacao-03-lote3-python"]):
+        for i, dev in enumerate(["cacao-01-lote1-twin", "cacao-02-lote2-wokwi", "cacao-03-lote3-sdk"]):
             s = df[(df.device == dev) & (df.day == day)].dropna(subset=["soilMoisture"]).sort_values("ts")
             if len(s):
                 ax.plot(s.ts.dt.tz_convert(COL), s.soilMoisture.astype(float), lw=1.3, color=PALETTE[i], label=f"Lote {i + 1}")
@@ -159,7 +159,7 @@ def asynchrony(df):
 
 
 def comparison(st):
-    sel = st[(st.nodo == "cacao-05-meteo-atlas") & (st.variable.isin(["temperature", "humidity"]))].dropna(subset=["max"])
+    sel = st[(st.nodo == "cacao-05-meteo-feed") & (st.variable.isin(["temperature", "humidity"]))].dropna(subset=["max"])
     fig, axes = plt.subplots(1, 2, figsize=(12, 3.6))
     for ax, var, unit in zip(axes, ["temperature", "humidity"], ["°C", "% HR"]):
         s = sel[sel.variable == var]
@@ -182,10 +182,10 @@ def main():
     df = fetch()
     st = stats(df)
     soil_all(df)
-    four_day_panels(df, "cacao-05-meteo-atlas", "temperature", "Temperatura del aire (feed meteo)", "°C", "g2_temperatura_4dias.png", "#B5462F")
-    four_day_panels(df, "cacao-05-meteo-atlas", "rainfall", "Lluvia horaria (feed meteo)", "mm", "g3_lluvia_4dias.png", "#2F6DB5")
-    four_day_panels(df, "cacao-06-fermenta-mqtt", "boxTemperature", "Temperatura de masa en fermentacion", "°C", "g4_fermentacion_4dias.png")
-    four_day_panels(df, "cacao-04-aire-api", "pm25", "PM2.5 aire rural (API CAMS)", "µg/m³", "g5_pm25_4dias.png", "#7A5BA6")
+    four_day_panels(df, "cacao-05-meteo-feed", "temperature", "Temperatura del aire (feed meteo)", "°C", "g2_temperatura_4dias.png", "#B5462F")
+    four_day_panels(df, "cacao-05-meteo-feed", "rainfall", "Lluvia horaria (feed meteo)", "mm", "g3_lluvia_4dias.png", "#2F6DB5")
+    four_day_panels(df, "cacao-06-ferm-paho", "boxTemperature", "Temperatura de masa en fermentacion", "°C", "g4_fermentacion_4dias.png")
+    four_day_panels(df, "cacao-04-aire-cams", "pm25", "PM2.5 aire rural (API CAMS)", "µg/m³", "g5_pm25_4dias.png", "#7A5BA6")
     asynchrony(df)
     comparison(st)
     print(st.to_string()[:6000])

@@ -7,11 +7,11 @@ set -euo pipefail
 BASE=/home/azureuser/cacao/senders
 PY=/home/azureuser/cacao/.venv/bin/python
 declare -A CMD=(
-  [cacao-03]="$PY -u $BASE/sdk_device.py cacao-03-lote3-python"
-  [cacao-04]="$PY -u $BASE/sdk_device.py cacao-04-aire-api"
-  [cacao-05]="$PY -u $BASE/sdk_device.py cacao-05-meteo-atlas"
-  [cacao-06]="$PY -u $BASE/mqtt_explicit.py cacao-06-fermenta-mqtt"
-  [cacao-07]="$PY -u $BASE/sdk_device.py cacao-07-campo-replay"
+  [cacao-03]="$PY -u $BASE/sdk_device.py cacao-03-lote3-sdk"
+  [cacao-04]="$PY -u $BASE/sdk_device.py cacao-04-aire-cams"
+  [cacao-05]="$PY -u $BASE/sdk_device.py cacao-05-meteo-feed"
+  [cacao-06]="$PY -u $BASE/mqtt_explicit.py cacao-06-ferm-paho"
+  [cacao-07]="$PY -u $BASE/sdk_device.py cacao-07-campo-era5"
   [cacao-08]="$PY -u $BASE/https_bridge.py"
   [cacao-10]="/usr/local/bin/node $BASE/node/bodega.js"
 )
