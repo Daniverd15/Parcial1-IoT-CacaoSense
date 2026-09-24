@@ -1,0 +1,7 @@
+﻿2026-09-24 19:39:42 [cacao-03-lote3-python] [HUB] estado de conexion: CONNECTED
+2026-09-24 19:39:42 [cacao-03-lote3-python] [HUB] CONNECTED a iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883 como 'cacao-03-lote3-python'
+2026-09-24 19:42:16 [cacao-03-lote3-python] [FIN] desconexion controlada
+2026-09-24 19:42:16 [cacao-03-lote3-python] [HUB] estado de conexion: DISCONNECTED
+2026-09-24 19:52:27 [cacao-03-lote3-python] [HUB] estado de conexion: CONNECTED
+2026-09-24 19:52:27 [cacao-03-lote3-python] [HUB] CONNECTED a iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883 como 'cacao-03-lote3-python'
+2026-09-24 20:31:21 [cacao-03-lote3-python] [CMD] setIrrigation(True) -> Riego lote 3 HABILITADO

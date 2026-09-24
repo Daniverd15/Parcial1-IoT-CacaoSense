@@ -1,0 +1,221 @@
+{
+  "@id": "dtmi:unab:cacaosense:riego;1",
+  "@type": "Interface",
+  "@context": [
+    "dtmi:iotcentral:context;2",
+    "dtmi:dtdl:context;2"
+  ],
+  "displayName": {
+    "en": "CacaoSense Riego y Perimetro"
+  },
+  "description": {
+    "en": "Parcial 1 IoT UNAB 2026-II - Granja y cultivo de cacao. Plantilla v1.0.0"
+  },
+  "contents": [
+    {
+      "@type": "Telemetry",
+      "name": "waterLevel",
+      "displayName": {
+        "en": "Nivel del reservorio"
+      },
+      "schema": "double",
+      "description": {
+        "en": "Sensor de referencia: MaxBotix MB7389. Unidad: %."
+      },
+      "displayUnit": {
+        "en": "%"
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "flowRate",
+      "displayName": {
+        "en": "Caudal de riego"
+      },
+      "schema": "double",
+      "description": {
+        "en": "Sensor de referencia: DFRobot SEN0217. Unidad: L/min."
+      },
+      "displayUnit": {
+        "en": "L/min"
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "pumpOn",
+      "displayName": {
+        "en": "Bomba encendida"
+      },
+      "schema": "boolean",
+      "description": {
+        "en": "Sensor de referencia: Rele / contactor."
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "doorOpen",
+      "displayName": {
+        "en": "Puerta de bodega abierta"
+      },
+      "schema": "boolean",
+      "description": {
+        "en": "Sensor de referencia: Littelfuse 59025 (reed)."
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "motion",
+      "displayName": {
+        "en": "Movimiento en perimetro"
+      },
+      "schema": "boolean",
+      "description": {
+        "en": "Sensor de referencia: Panasonic EKMB1101112 (PIR)."
+      }
+    },
+    {
+      "@type": [
+        "Telemetry",
+        "NumberValue"
+      ],
+      "name": "temperature",
+      "displayName": {
+        "en": "Temperatura del aire"
+      },
+      "schema": "double",
+      "description": {
+        "en": "Sensor de referencia: AM2302/DHT22 o Vaisala WXT530. Unidad: °C."
+      },
+      "displayUnit": {
+        "en": "°C"
+      },
+      "minValue": 17,
+      "maxValue": 34,
+      "decimalPlaces": 1
+    },
+    {
+      "@type": "Telemetry",
+      "name": "fleetConnected",
+      "displayName": {
+        "en": "Connected"
+      },
+      "schema": "integer",
+      "description": {
+        "en": "Sensor de referencia: Puesto de mando (heartbeat). Unidad: nodos."
+      },
+      "displayUnit": {
+        "en": "nodos"
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "fleetDisconnected",
+      "displayName": {
+        "en": "Disconnected"
+      },
+      "schema": "integer",
+      "description": {
+        "en": "Sensor de referencia: Puesto de mando (heartbeat). Unidad: nodos."
+      },
+      "displayUnit": {
+        "en": "nodos"
+      }
+    },
+    {
+      "@type": "Telemetry",
+      "name": "fleetUnassociated",
+      "displayName": {
+        "en": "Unassociated"
+      },
+      "schema": "integer",
+      "description": {
+        "en": "Sensor de referencia: Puesto de mando (heartbeat). Unidad: nodos."
+      },
+      "displayUnit": {
+        "en": "nodos"
+      }
+    },
+    {
+      "@type": "Property",
+      "name": "samplingIntervalSec",
+      "displayName": {
+        "en": "Intervalo de envio (s)"
+      },
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "firmwareVersion",
+      "displayName": {
+        "en": "Version del codigo"
+      },
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "zone",
+      "displayName": {
+        "en": "Zona del predio"
+      },
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "originId",
+      "displayName": {
+        "en": "Origen de envio"
+      },
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "setPump",
+      "displayName": {
+        "en": "Encender/apagar bomba"
+      },
+      "request": {
+        "@type": "CommandPayload",
+        "name": "enabled",
+        "displayName": {
+          "en": "Activar"
+        },
+        "schema": "boolean"
+      },
+      "response": {
+        "@type": "CommandPayload",
+        "name": "result",
+        "displayName": {
+          "en": "Resultado"
+        },
+        "schema": "string"
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "setAlertLed",
+      "displayName": {
+        "en": "Sirena/LED de perimetro"
+      },
+      "request": {
+        "@type": "CommandPayload",
+        "name": "enabled",
+        "displayName": {
+          "en": "Activar"
+        },
+        "schema": "boolean"
+      },
+      "response": {
+        "@type": "CommandPayload",
+        "name": "result",
+        "displayName": {
+          "en": "Resultado"
+        },
+        "schema": "string"
+      }
+    }
+  ]
+}

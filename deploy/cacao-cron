@@ -1,0 +1,16 @@
+# /etc/cron.d/cacao-cron  (VM en UTC; hora local Colombia = UTC-5)
+# Desconexiones controladas diarias -> huecos documentados en la serie (asincronia/desconexion).
+# Ademas renuevan el token SAS (24 h) de los clientes MQTT explicitos (paho y MQTT.js).
+SHELL=/bin/bash
+# 06 Fermentacion (paho): 02:00-02:30 local
+0 7 * * *   root systemctl stop cacao-06  && logger -t cacao-gap "STOP cacao-06 (mantenimiento programado)"
+30 7 * * *  root systemctl start cacao-06 && logger -t cacao-gap "START cacao-06"
+# 10 Bodega (Node MQTT.js): 03:00-03:10 local
+0 8 * * *   root systemctl stop cacao-10  && logger -t cacao-gap "STOP cacao-10 (mantenimiento programado)"
+10 8 * * *  root systemctl start cacao-10 && logger -t cacao-gap "START cacao-10"
+# 08 Dosel (HTTPS): 12:00-12:20 local (corte de enlace simulado)
+0 17 * * *  root systemctl stop cacao-08  && logger -t cacao-gap "STOP cacao-08 (corte de enlace simulado)"
+20 17 * * * root systemctl start cacao-08 && logger -t cacao-gap "START cacao-08"
+# 03 Lote 3 (Python SDK): 16:00-16:15 local
+0 21 * * *  root systemctl stop cacao-03  && logger -t cacao-gap "STOP cacao-03 (desconexion controlada)"
+15 21 * * * root systemctl start cacao-03 && logger -t cacao-gap "START cacao-03"

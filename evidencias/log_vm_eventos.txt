@@ -1,0 +1,16 @@
+2026-09-24T21:15:01+0000 vm-parcial1-cacao cacao-gap[5106]: START cacao-03
+----
+2026-09-24 19:39:42 [cacao-06-fermenta-mqtt] [HUB] CONNACK rc=0 (CONNECTED) iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883
+2026-09-24 19:39:42 [cacao-03-lote3-python] [HUB] estado de conexion: CONNECTED
+2026-09-24 19:39:42 [cacao-03-lote3-python] [HUB] CONNECTED a iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883 como 'cacao-03-lote3-python'
+2026-09-24 19:41:11 [cacao-10-bodega-node] [HUB] CONNECTED iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883
+2026-09-24 19:42:16 [cacao-03-lote3-python] [FIN] desconexion controlada
+2026-09-24 19:42:16 [cacao-03-lote3-python] [HUB] estado de conexion: DISCONNECTED
+2026-09-24 19:52:27 [cacao-03-lote3-python] [HUB] estado de conexion: CONNECTED
+2026-09-24 19:52:27 [cacao-03-lote3-python] [HUB] CONNECTED a iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883 como 'cacao-03-lote3-python'
+2026-09-24 19:52:50 [cacao-10-bodega-node] [FIN] DISCONNECT controlado
+2026-09-24 19:52:52 [cacao-10-bodega-node] [HUB] CONNECTED iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883
+2026-09-24 20:31:21 [cacao-03-lote3-python] [CMD] setIrrigation(True) -> Riego lote 3 HABILITADO
+2026-09-24 20:32:08 [cacao-03-lote3-python] [PROP] samplingIntervalSec -> 20s (writable property sincronizada)
+2026-09-24 20:50:27 [cacao-03-lote3-python] [HUB] estado de conexion: DISCONNECTED
+2026-09-24 20:50:27 [cacao-03-lote3-python] [HUB] estado de conexion: CONNECTED

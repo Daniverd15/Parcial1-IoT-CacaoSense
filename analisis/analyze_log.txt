@@ -1,0 +1,70 @@
+﻿cacao-01-lote1-twin 61 filas
+cacao-02-lote2-wokwi 0 filas
+cacao-03-lote3-python 584 filas
+cacao-04-aire-api 80 filas
+cacao-05-meteo-atlas 80 filas
+cacao-06-fermenta-mqtt 348 filas
+cacao-07-campo-replay 190 filas
+cacao-08-dosel-https 191 filas
+query error cacao-09-riego-wokwi 2026-09-24 Something went wrong on our end. Please try again. You can contact support at https://aka.ms/iotcentral-support. Please 
+cacao-09-riego-wokwi 0 filas
+cacao-10-bodega-node 398 filas
+                       nodo         variable         dia  recuento       max       min  promedio  suma
+0       cacao-01-lote1-twin     soilMoisture  2026-09-18         0       NaN       NaN       NaN   NaN
+1       cacao-01-lote1-twin     soilMoisture  2026-09-20         0       NaN       NaN       NaN   NaN
+2       cacao-01-lote1-twin     soilMoisture  2026-09-22         0       NaN       NaN       NaN   NaN
+3       cacao-01-lote1-twin     soilMoisture  2026-09-24        40     41.30     18.90     29.48      
+4       cacao-01-lote1-twin  soilTemperature  2026-09-18         0       NaN       NaN       NaN   NaN
+5       cacao-01-lote1-twin  soilTemperature  2026-09-20         0       NaN       NaN       NaN   NaN
+6       cacao-01-lote1-twin  soilTemperature  2026-09-22         0       NaN       NaN       NaN   NaN
+7       cacao-01-lote1-twin  soilTemperature  2026-09-24        40     28.46     20.69     24.55      
+8       cacao-01-lote1-twin           soilEC  2026-09-18         0       NaN       NaN       NaN   NaN
+9       cacao-01-lote1-twin           soilEC  2026-09-20         0       NaN       NaN       NaN   NaN
+10      cacao-01-lote1-twin           soilEC  2026-09-22         0       NaN       NaN       NaN   NaN
+11      cacao-01-lote1-twin           soilEC  2026-09-24        40      1.33      0.35      0.90      
+12     cacao-02-lote2-wokwi     soilMoisture  2026-09-18         0       NaN       NaN       NaN   NaN
+13     cacao-02-lote2-wokwi     soilMoisture  2026-09-20         0       NaN       NaN       NaN   NaN
+14     cacao-02-lote2-wokwi     soilMoisture  2026-09-22         0       NaN       NaN       NaN   NaN
+15     cacao-02-lote2-wokwi     soilMoisture  2026-09-24         0       NaN       NaN       NaN   NaN
+16     cacao-02-lote2-wokwi      temperature  2026-09-18         0       NaN       NaN       NaN   NaN
+17     cacao-02-lote2-wokwi      temperature  2026-09-20         0       NaN       NaN       NaN   NaN
+18     cacao-02-lote2-wokwi      temperature  2026-09-22         0       NaN       NaN       NaN   NaN
+19     cacao-02-lote2-wokwi      temperature  2026-09-24         0       NaN       NaN       NaN   NaN
+20     cacao-02-lote2-wokwi      illuminance  2026-09-18         0       NaN       NaN       NaN   NaN
+21     cacao-02-lote2-wokwi      illuminance  2026-09-20         0       NaN       NaN       NaN   NaN
+22     cacao-02-lote2-wokwi      illuminance  2026-09-22         0       NaN       NaN       NaN   NaN
+23     cacao-02-lote2-wokwi      illuminance  2026-09-24         0       NaN       NaN       NaN   NaN
+24    cacao-03-lote3-python     soilMoisture  2026-09-18       129     23.50     17.00     20.55      
+25    cacao-03-lote3-python     soilMoisture  2026-09-20       108     20.90     14.90     17.26      
+26    cacao-03-lote3-python     soilMoisture  2026-09-22       144     24.80     18.10     21.60      
+27    cacao-03-lote3-python     soilMoisture  2026-09-24       203     23.70     16.70     18.36      
+28    cacao-03-lote3-python  soilTemperature  2026-09-18       129     26.17     22.82     23.79      
+29    cacao-03-lote3-python  soilTemperature  2026-09-20       108     26.36     22.83     24.37      
+30    cacao-03-lote3-python  soilTemperature  2026-09-22       144     26.30     22.78     24.02      
+31    cacao-03-lote3-python  soilTemperature  2026-09-24       203     26.41     25.87     26.18      
+32    cacao-03-lote3-python           soilEC  2026-09-18       129      0.74      0.64      0.70      
+33    cacao-03-lote3-python           soilEC  2026-09-20       108      0.71      0.61      0.66      
+34    cacao-03-lote3-python           soilEC  2026-09-22       144      0.76      0.66      0.71      
+35    cacao-03-lote3-python           soilEC  2026-09-24       203      0.75      0.63      0.67      
+36    cacao-03-lote3-python      illuminance  2026-09-18       129  35138.00      0.00   8681.35      
+37    cacao-03-lote3-python      illuminance  2026-09-20       108  35161.00      0.00  14047.53      
+38    cacao-03-lote3-python      illuminance  2026-09-22       144  35320.00      0.00  10446.38      
+39    cacao-03-lote3-python      illuminance  2026-09-24       203  27073.00  17577.00  21739.79      
+40        cacao-04-aire-api             pm25  2026-09-18        24     18.30      2.60      7.79      
+41        cacao-04-aire-api             pm25  2026-09-20        24     16.50      5.70      9.68      
+42        cacao-04-aire-api             pm25  2026-09-22        19     14.10      1.00      7.96      
+43        cacao-04-aire-api             pm25  2026-09-24        13      8.30      7.60      7.87      
+44        cacao-04-aire-api             pm10  2026-09-18        24     19.10      2.70      8.08      
+45        cacao-04-aire-api             pm10  2026-09-20        24     17.20      6.00     10.46      
+46        cacao-04-aire-api             pm10  2026-09-22        19     14.60      1.00      8.46      
+47        cacao-04-aire-api             pm10  2026-09-24        13      8.50      7.80      8.07      
+48        cacao-04-aire-api              aqi  2026-09-18        24     49.00     43.00     45.88      
+49        cacao-04-aire-api              aqi  2026-09-20        24     54.00     51.00     52.67      
+50        cacao-04-aire-api              aqi  2026-09-22        19     52.00     51.00     51.26      
+51        cacao-04-aire-api              aqi  2026-09-24        13     50.00     50.00     50.00      
+52        cacao-04-aire-api         humidity  2026-09-18        24     87.00     46.00     67.67      
+53        cacao-04-aire-api         humidity  2026-09-20        24     99.00     53.00     76.58      
+54        cacao-04-aire-api         humidity  2026-09-22        19     96.00     53.00     78.11      
+55        cacao-04-aire-api         humidity  2026-09-24        13     67.00     61.00     63.54      
+56     cacao-05-meteo-atlas      temperature  2026-09-18        24     31.60     23.80     27.05      
+57     cacao-05-meteo-atla

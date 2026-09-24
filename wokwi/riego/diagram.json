@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "author": "CacaoSense - Parcial 1 IoT UNAB",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp32", "top": 0, "left": 0, "attrs": {} },
+    { "type": "wokwi-hc-sr04", "id": "sonar", "top": -140, "left": 170, "attrs": { "distance": "80" } },
+    { "type": "wokwi-potentiometer", "id": "flow", "top": 70, "left": 220, "attrs": { "value": "60" } },
+    { "type": "wokwi-led", "id": "pump", "top": -60, "left": -110, "attrs": { "color": "blue" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": -10, "left": -130, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    [ "esp32:5V", "sonar:VCC", "red", [] ], [ "esp32:GND.1", "sonar:GND", "black", [] ],
+    [ "esp32:5", "sonar:TRIG", "green", [] ], [ "esp32:18", "sonar:ECHO", "purple", [] ],
+    [ "esp32:3V3", "flow:VCC", "red", [] ], [ "esp32:GND.2", "flow:GND", "black", [] ], [ "esp32:35", "flow:SIG", "blue", [] ],
+    [ "esp32:13", "r1:1", "orange", [] ], [ "r1:2", "pump:A", "orange", [] ], [ "pump:C", "esp32:GND.2", "black", [] ],
+    [ "esp32:TX", "$serialMonitor:RX", "", [] ], [ "esp32:RX", "$serialMonitor:TX", "", [] ]
+  ],
+  "dependencies": {}
+}

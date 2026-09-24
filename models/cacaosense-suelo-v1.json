@@ -1,0 +1,207 @@
+{
+  "@id": "dtmi:unab:cacaosense:suelo;1",
+  "@type": "Interface",
+  "@context": [
+    "dtmi:iotcentral:context;2",
+    "dtmi:dtdl:context;2"
+  ],
+  "displayName": {
+    "en": "CacaoSense Nodo de Suelo"
+  },
+  "description": {
+    "en": "Parcial 1 IoT UNAB 2026-II - Granja y cultivo de cacao. Plantilla v1.0.0"
+  },
+  "contents": [
+    {
+      "@type": [
+        "Telemetry",
+        "NumberValue"
+      ],
+      "name": "soilMoisture",
+      "displayName": {
+        "en": "Humedad volumetrica del suelo"
+      },
+      "schema": "double",
+      "description": {
+        "en": "Sensor de referencia: METER TEROS 12. Unidad: % VWC."
+      },
+      "displayUnit": {
+        "en": "% VWC"
+      },
+      "minValue": 15,
+      "maxValue": 45,
+      "decimalPlaces": 1
+    },
+    {
+      "@type": [
+        "Telemetry",
+        "NumberValue"
+      ],
+      "name": "soilTemperature",
+      "displayName": {
+        "en": "Temperatura del suelo"
+      },
+      "schema": "double",
+      "description": {
+        "en": "Sensor de referencia: METER TEROS 12. Unidad: °C."
+      },
+      "displayUnit": {
+        "en": "°C"
+      },
+      "minValue": 20,
+      "maxValue": 30,
+      "decimalPlaces": 2
+    },
+    {
+      "@type": [
+        "Telemetry",
+        "NumberValue"
+      ],
+      "name": "soilEC",
+      "displayName": {
+        "en": "Conductividad electrica aparente"
+      },
+      "schema": "double",
+      "description": {
+        "en": "Sensor de referencia: METER TEROS 12. Unidad: dS/m."
+      },
+      "displayUnit": {
+        "en": "dS/m"
+      },
+      "minValue": 0.3,
+      "maxValue": 1.5,
+      "decimalPlaces": 3
+    },
+    {
+      "@type": [
+        "Telemetry",
+        "NumberValue"
+      ],
+      "name": "illuminance",
+      "displayName": {
+        "en": "Iluminancia"
+      },
+      "schema": "double",
+      "description": {
+        "en": "Sensor de referencia: ROHM BH1750FVI. Unidad: lx."
+      },
+      "displayUnit": {
+        "en": "lx"
+      },
+      "minValue": 0,
+      "maxValue": 45000,
+      "decimalPlaces": 0
+    },
+    {
+      "@type": [
+        "Telemetry",
+        "NumberValue"
+      ],
+      "name": "temperature",
+      "displayName": {
+        "en": "Temperatura del aire"
+      },
+      "schema": "double",
+      "description": {
+        "en": "Sensor de referencia: AM2302/DHT22 o Vaisala WXT530. Unidad: °C."
+      },
+      "displayUnit": {
+        "en": "°C"
+      },
+      "minValue": 17,
+      "maxValue": 34,
+      "decimalPlaces": 1
+    },
+    {
+      "@type": "Property",
+      "name": "samplingIntervalSec",
+      "displayName": {
+        "en": "Intervalo de envio (s)"
+      },
+      "schema": "integer",
+      "writable": true
+    },
+    {
+      "@type": "Property",
+      "name": "firmwareVersion",
+      "displayName": {
+        "en": "Version del codigo"
+      },
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "zone",
+      "displayName": {
+        "en": "Zona del predio"
+      },
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "originId",
+      "displayName": {
+        "en": "Origen de envio"
+      },
+      "schema": "string",
+      "writable": false
+    },
+    {
+      "@type": "Property",
+      "name": "irrigationEnabled",
+      "displayName": {
+        "en": "Riego habilitado"
+      },
+      "schema": "boolean",
+      "writable": false
+    },
+    {
+      "@type": "Command",
+      "name": "setIrrigation",
+      "displayName": {
+        "en": "Habilitar riego del lote"
+      },
+      "request": {
+        "@type": "CommandPayload",
+        "name": "enabled",
+        "displayName": {
+          "en": "Activar"
+        },
+        "schema": "boolean"
+      },
+      "response": {
+        "@type": "CommandPayload",
+        "name": "result",
+        "displayName": {
+          "en": "Resultado"
+        },
+        "schema": "string"
+      }
+    },
+    {
+      "@type": "Command",
+      "name": "setAlertLed",
+      "displayName": {
+        "en": "LED de alerta"
+      },
+      "request": {
+        "@type": "CommandPayload",
+        "name": "enabled",
+        "displayName": {
+          "en": "Activar"
+        },
+        "schema": "boolean"
+      },
+      "response": {
+        "@type": "CommandPayload",
+        "name": "result",
+        "displayName": {
+          "en": "Resultado"
+        },
+        "schema": "string"
+      }
+    }
+  ]
+}

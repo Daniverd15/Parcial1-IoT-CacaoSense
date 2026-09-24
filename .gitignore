@@ -1,0 +1,26 @@
+# Secretos: nunca al repositorio
+.env
+.env.*
+!.env.example
+PRIVADO_*
+*.key
+*.pem
+secrets.h
+secrets*.json
+credentials*.json
+# Entornos y artefactos
+.venv/
+.tools/
+.pio/
+node_modules/
+__pycache__/
+*.pyc
+logs/
+runtime/
+tmp/
+private/
+analisis/prev_*
+analisis/crop_*
+~$*
+# Capturas completas del navegador (incluyen barra de marcadores); se publican los recortes
+evidencias/*.png
