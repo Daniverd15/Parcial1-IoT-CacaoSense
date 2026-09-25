@@ -66,6 +66,9 @@ cd node && npm ci && node bodega.js         # nodo 10
 ```
 En la VM: `bash deploy/install_services.sh` y `sudo install -m644 deploy/cacao-cron /etc/cron.d/`.
 Wokwi: pegar `sketch.ino`, `diagram.json` y librerías en wokwi.com, reemplazar `PEGAR_PRIMARY_KEY` y pulsar Play.
+Alternativa sin la cola de compilación de wokwi.com (usada desde el 25/09): `python tools/make_vscode_wokwi.py` genera
+`wokwi/vscode/{lote2,riego}` (PlatformIO + `wokwi.toml`; la clave va en `src/secrets.h`, ignorado por git), `pio run` y
+en VS Code `F1 → Wokwi: Start Simulator` (una ventana por nodo).
 
 Informe: `python tools/build_report.py --refresh` (consulta IoT Central, rehace estadísticas/gráficos y genera DOCX + PDF).
 

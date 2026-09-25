@@ -24,3 +24,7 @@ analisis/crop_*
 ~$*
 # Capturas completas del navegador (incluyen barra de marcadores); se publican los recortes
 evidencias/*.png
+
+# Wokwi for VS Code
+secrets.h
+.pio/
