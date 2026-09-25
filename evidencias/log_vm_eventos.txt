@@ -23,3 +23,7 @@
 2026-09-24 21:29:56 [cacao-03-lote3-sdk] [HUB] estado de conexion: CONNECTED
 2026-09-24 21:29:56 [cacao-10-bodega-mqttjs] [HUB] CONNECTED iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883
 2026-09-24 21:29:56 [cacao-03-lote3-sdk] [HUB] CONNECTED a iotc-a4831435-0aa5-48aa-9e9d-3afd0ca35c9b.azure-devices.net:8883 como 'cacao-03-lote3-sdk'
+2026-09-24 22:27:56 [cacao-03-lote3-sdk] [HUB] estado de conexion: DISCONNECTED
+2026-09-24 22:27:56 [cacao-03-lote3-sdk] [HUB] estado de conexion: CONNECTED
+2026-09-24 23:25:56 [cacao-03-lote3-sdk] [HUB] estado de conexion: DISCONNECTED
+2026-09-24 23:25:56 [cacao-03-lote3-sdk] [HUB] estado de conexion: CONNECTED

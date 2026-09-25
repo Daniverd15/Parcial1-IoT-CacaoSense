@@ -149,7 +149,9 @@ def fig(doc, path, caption, width=16.5, crop_browser=False):
         top = int(h * 0.174) if sum(row) > 700 else int(h * 0.118)   # con/sin barra de depuracion de Chrome
         (EV / "recortes").mkdir(exist_ok=True)
         img = EV / "recortes" / path.name
-        im.crop((0, top, w, h)).save(img)
+        # En Wokwi el editor muestra la clave del dispositivo: solo se publica el panel de simulacion.
+        left = int(w * 0.50) if "wokwi" in path.name else 0
+        im.crop((left, top, w, h)).save(img)
     doc.add_picture(str(img), width=Cm(width))
     doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
     p = doc.add_paragraph()
@@ -489,7 +491,7 @@ def build():
     ])
     for name, cap in SHOTS:
         if name.startswith(("10", "11", "12")):
-            fig(doc, EV / name, "Figura. " + cap, crop_browser=name.startswith("12"))
+            fig(doc, EV / name, "Figura. " + cap, width=12 if "wokwi" in name else 16.5, crop_browser=True)
 
     # ---------------- 10 Repo
     doc.add_heading("10. Repositorio, seguridad y limitaciones de IoT Central", 1)
