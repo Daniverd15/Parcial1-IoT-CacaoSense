@@ -5,7 +5,7 @@
   "parts": [
     { "type": "board-esp32-devkit-c-v4", "id": "esp32", "top": 0, "left": 0, "attrs": {} },
     { "type": "wokwi-dht22", "id": "dht1", "top": -130, "left": 190, "attrs": { "temperature": "27.5", "humidity": "82" } },
-    { "type": "wokwi-potentiometer", "id": "soil", "top": 60, "left": 220, "attrs": { "value": "50" } },
+    { "type": "wokwi-potentiometer", "id": "soil", "top": 60, "left": 220, "attrs": { "value": "520" } },
     { "type": "wokwi-photoresistor-sensor", "id": "ldr1", "top": 180, "left": 200, "attrs": {} },
     { "type": "wokwi-led", "id": "led1", "top": -60, "left": -110, "attrs": { "color": "red" } },
     { "type": "wokwi-resistor", "id": "r1", "top": -10, "left": -130, "attrs": { "value": "220" } }
