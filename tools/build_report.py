@@ -484,7 +484,7 @@ def build():
     doc.add_heading("5. Tablas de parámetros por variable", 1)
     para(doc, "Cada variable se ancla a un sensor real. Se separan el rango del fabricante, el rango operativo del escenario, la precisión, "
               "el umbral de regla (académico y ajustable) y el valor usado en el código.")
-    table(doc, ["Variable", "Unidad", "Sensor", "Rango datasheet", "Rango operativo", "Precisión", "Umbral Rule", "Valor en el código"],
+    table(doc, ["Variable", "Unidad", "Sensor", "Rango datasheet", "Rango operativo", "Precisión", "Umbral Rule", "Valor en el código (mín/máx/offset)"],
           [list(p) for p in PARAMS], widths=[2.3, 1.3, 2.3, 2.0, 1.8, 1.7, 2.2, 3.4], font=6.8)
 
     # ---------------- 6 Ventana 4 dias
