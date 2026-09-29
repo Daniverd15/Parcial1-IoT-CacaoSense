@@ -385,7 +385,6 @@ def build():
         ["Infraestructura", "rg-parcial1-cacao · IoT Central ST2 (centralus) · gateway de borde: VM vm-parcial1-cacao (24–26/09) "
                             "y equipo local Windows desde el 26/09"],
         ["Ventana de datos", "4 fechas reales: " + ", ".join(DIAS_ES[d] for d in DAYS) + " de 2026"],
-        ["Versión del documento", f"{VERSION} · generado {datetime.now(COL):%d/%m/%Y %H:%M} (hora Colombia)"],
     ], widths=[4.5, 12.5], font=9)
     doc.add_page_break()
 
