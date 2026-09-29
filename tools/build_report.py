@@ -97,8 +97,9 @@ SHOTS = [
     ("09-desconectado.png", "Nodo en estado Desconectado durante una desconexión controlada."),
     ("10-wokwi-lote2.png", "Wokwi ESP32 #1 (Lote 2): monitor serie con DPS → IoT Hub → publish."),
     ("11-wokwi-riego.png", "Wokwi ESP32 #2 (Reservorio): monitor serie y respuesta al comando setPump."),
-    ("12-wokwi-conectado-central.png", "Nodo Wokwi Conectado en IoT Central con telemetría en vivo."),
+    ("12-lote2-conectado-central.png", "Nodo Wokwi Conectado en IoT Central con telemetría en vivo."),
     ("13-data-explorer.png", "Data Explorer de IoT Central con la serie de la ventana de 4 días."),
+    ("14-vscode-serial-riego.png", "Wokwi for VS Code (nodo 09): monitor serie con TX periódicos y ciclos HUB DISCONNECTED → Connecting → CONNECTED."),
 ]
 
 # ----------------------------------------------------------------------------------------------
@@ -279,6 +280,38 @@ def reading(df):
                    f"(categoría {'buena' if a.aqi.max() <= 50 else 'moderada' if a.aqi.max() <= 100 else 'dañina para sensibles'}); "
                    f"R4 (AQI > 100) no se activó. Los picos coinciden con horas de baja mezcla atmosférica (madrugada).")
     return txt
+
+
+def alert_section(doc):
+    """Rules disparadas en la ventana de 4 dias (reconstruidas por tools/rule_events.py)."""
+    import rule_events
+    df = load()
+    ev = rule_events.events(df)
+    ev.to_csv(AN / "alertas_4dias.csv", index=False)
+    doc.add_heading("Alertas disparadas en la ventana de 4 días", 2)
+    para(doc, "IoT Central no publica por API el historial de disparos, así que cada regla se reevaluó sobre la telemetría "
+              "de la ventana con la misma condición y agregación (tools/rule_events.py → analisis/alertas_4dias.csv). Un evento "
+              "es una racha continua de ventanas que cumplen la condición: la regla dispara al entrar y se rearma al salir.", 9)
+    rules = [r[0] for r in rule_events.RULES] + ["R7 Nodo sin reporte"]
+    rows = []
+    for r in rules:
+        sub = ev[ev.regla == r]
+        rows.append([r] + [int((sub.dia == d).sum()) for d in DAYS] + [len(sub)])
+    table(doc, ["Regla"] + [DIAS_ES[d] for d in DAYS] + ["Total"], rows, widths=[4.2, 2.3, 2.3, 2.3, 2.3, 1.6], font=8)
+    det = ev[~ev.regla.str.startswith("R7")]
+    if len(det):
+        table(doc, ["Regla", "Nodo", "Inicio (local)", "Fin (local)", "Condición", "Pico"],
+              [[e.regla, e.nodo[6:], e.inicio.tz_convert(COL).strftime("%d-%b %H:%M"), e.fin.tz_convert(COL).strftime("%d-%b %H:%M"),
+                e.condicion, e.pico] for e in det.itertuples()], widths=[3.2, 3.2, 2.6, 2.6, 3.2, 1.4], font=7.5)
+    r7 = ev[ev.regla.str.startswith("R7")].groupby("nodo").size()
+    quiet = [r for r in rules[1:4] if not (ev.regla == r).any()]
+    para(doc, "Lectura: R1 se activa en el Lote 3, cuyo modelo de suelo pierde humedad cada día hasta que el operador envía "
+              "setIrrigation (demostrado en la sección 5). R7 registra las desconexiones de la sección 7 — cortes programados, "
+              "la caída del gateway del 26/09 y los periodos con el equipo de los Wokwi apagado — por nodo: "
+              + ", ".join(f"{k[6:]} ({v})" for k, v in r7.items()) + ". "
+              + (", ".join(quiet) + " no se dispararon: los valores reales quedaron dentro del rango operativo "
+                 f"(AQI máx. {df.aqi.max():.0f}, fermentación máx. {df.boxTemperature.max():.1f} °C, reservorio mín. "
+                 f"{pd.to_numeric(df.waterLevel, errors='coerce').min():.0f} %)." if quiet else ""), 9)
 
 
 def vm_logs():
@@ -488,7 +521,9 @@ def build():
               "mientras la simulación está abierta, y la sustentación reproduce una desconexión y reconexión en vivo. El 26/09 "
               "no transmitieron hasta la noche (equipo apagado y cola de compilación de wokwi.com saturada); desde entonces el "
               "firmware se compila en local con PlatformIO y se simula con Wokwi for VS Code (wokwi/vscode/), sin cambiar el "
-              "código, el ID ni la clave de cada dispositivo.", 9)
+              "código, el ID ni la clave de cada dispositivo. Desconexión controlada documentada: el 28/09 a las 23:25 se detuvo el "
+              "simulador del nodo 09 (Stop en Wokwi for VS Code); IoT Central lo marcó Desconectado (figura 12) y a las 23:29 se "
+              "reanudó y volvió a Conectado con telemetría, sin intervención en la nube.", 9)
     para(doc, "Desconexión no planificada (26/09): el crédito de la suscripción Azure for Students se agotó, la suscripción pasó a "
               "solo lectura y la VM quedó desasignada; los nodos 03–08 y 10 dejaron de transmitir a las 07:36 y se restablecieron a "
               "las 19:17 desde un equipo local con el mismo código y las mismas claves, sin reprovisionar. El hueco es visible en la "
@@ -524,6 +559,7 @@ def build():
         ["R4 Calidad de aire", "Clima y Aire", "aqi > 100", "Máximo, 5 min", "Correo 'Alerta calidad de aire'"],
         ["R7 Nodo sin reporte", "Riego y Perímetro", "fleetDisconnected > 0", "Máximo, 15 min", "Correo 'Alerta nodo sin reporte'"],
     ], widths=[3.5, 3.0, 3.5, 3.0, 4.0], font=8)
+    alert_section(doc)
 
     # ---------------- 9 Sustentacion
     doc.add_heading("9. Sustentación: dos códigos en dos equipos", 1)
@@ -541,6 +577,7 @@ def build():
     for name, cap in SHOTS:
         if name.startswith(("10", "11", "12")):
             fig(doc, EV / name, "Figura. " + cap, width=12 if "wokwi" in name else 16.5, crop_browser=True)
+    fig(doc, EV / "14-vscode-serial-riego.png", "Figura. " + SHOTS[-1][1], width=15)
 
     # ---------------- 10 Repo
     doc.add_heading("10. Repositorio, seguridad y limitaciones de IoT Central", 1)

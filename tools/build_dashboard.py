@@ -4,6 +4,9 @@
 """
 import json
 import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
 
 sys.path.insert(0, __file__.rsplit("\\", 1)[0].rsplit("/", 1)[0])
 from iotc_admin import call  # noqa: E402
@@ -65,7 +68,7 @@ def img(title, key, x, y, w, h, bg="#2B1A10"):
 
 # ids de las imagenes subidas en IoT Central (assets/cacaosense_banner.png, assets/predio_nodos.png,
 # analisis/arquitectura_cacaosense.png)
-IMAGES = {"banner": "02a94315-24ac-4e96-a2e9-16fde30db9b6", "arquitectura": "b985c114-c965-4322-a949-4ac720f6cb4b",
+IMAGES = {"banner": "02a94315-24ac-4e96-a2e9-16fde30db9b6", "arquitectura": "45b5604e-a1b4-4784-ab44-0dc1319a0a72",
           "predio": "6e276ae2-3ba4-41b9-a4bc-2009e8a50781"}
 
 ZONE_MAP = """| Zona | Nodo | Origen |
@@ -87,7 +90,23 @@ ALERTS = """- 🟤 **R1 Suelo seco**: soilMoisture < 20 % VWC (lotes 1-3)
 - 💨 **R4 Aire**: aqi > 100 (US AQI)
 - 🔌 **R7 Nodo sin reporte**: fleetDisconnected > 0
 
-Ver *Rules* para el historial de disparos."""
+Ver *Rules* para la configuración."""
+
+
+def alert_history():
+    """Resumen de disparos reconstruidos en la ventana de 4 dias (tools/rule_events.py)."""
+    import pandas as pd
+    f = ROOT / "analisis" / "alertas_4dias.csv"
+    if not f.exists():
+        return ""
+    ev = pd.read_csv(f)
+    lines = ["", "**Disparos 25–28/09:**"]
+    for regla, sub in ev.groupby("regla"):
+        lines.append(f"- {regla}: {len(sub)} eventos ({', '.join(f'{d[8:]}/09: {n}' for d, n in sub.groupby('dia').size().items())})")
+    for r in ("R2 Fermentacion alta", "R3 Reservorio bajo", "R4 Calidad de aire"):
+        if r not in set(ev.regla):
+            lines.append(f"- {r}: 0 eventos")
+    return "\n".join(lines)
 
 
 def TILES(soil):
@@ -115,7 +134,7 @@ def TILES(soil):
         line("🌳 Dosel: temperatura y HR bajo sombra", "grp-poscosecha", ["cacao-08-dosel-rest"], ["temperature", "humidity"], 3, 8, w=3, h=2, duration="PT12H", res="PT10M"),
         img("🗺️ Predio CacaoSense: 10 nodos distribuidos", "predio", 0, 10, 4, 3),
         md("🗺️ Mapa de zonas del predio", ZONE_MAP, 4, 10, 2, 3),
-        md("🚨 Alertas y reglas activas", ALERTS, 0, 13, 2, 3, href="/rules"),
+        md("🚨 Alertas y reglas activas", ALERTS + alert_history(), 0, 13, 2, 3, href="/rules"),
         img("🧭 Arquitectura de la solución", "arquitectura", 2, 13, 4, 3, bg="#FFFFFF"),
     ]
 

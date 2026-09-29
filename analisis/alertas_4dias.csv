@@ -1,0 +1,70 @@
+regla,nodo,inicio,fin,condicion,pico,dia
+R1 Suelo seco,cacao-03-lote3-sdk,2026-09-25 14:00:00+00:00,2026-09-25 21:00:00+00:00,soilMoisture < 20,15.8,2026-09-25
+R1 Suelo seco,cacao-03-lote3-sdk,2026-09-25 21:15:00+00:00,2026-09-26 12:45:00+00:00,soilMoisture < 20,15.3,2026-09-25
+R1 Suelo seco,cacao-03-lote3-sdk,2026-09-27 00:15:00+00:00,2026-09-27 05:00:00+00:00,soilMoisture < 20,14.2,2026-09-26
+R1 Suelo seco,cacao-03-lote3-sdk,2026-09-27 19:45:00+00:00,2026-09-27 21:00:00+00:00,soilMoisture < 20,19.4,2026-09-27
+R1 Suelo seco,cacao-03-lote3-sdk,2026-09-27 21:15:00+00:00,2026-09-28 05:00:00+00:00,soilMoisture < 20,18.9,2026-09-27
+R1 Suelo seco,cacao-03-lote3-sdk,2026-09-28 18:00:00+00:00,2026-09-29 04:45:00+00:00,soilMoisture < 20,17.7,2026-09-28
+R7 Nodo sin reporte,cacao-06-ferm-paho,2026-09-25 07:04:14.676000+00:00,2026-09-25 07:30:04.633000+00:00,fleetDisconnected > 0,31.0,2026-09-25
+R7 Nodo sin reporte,cacao-10-bodega-mqttjs,2026-09-25 08:04:49.897000+00:00,2026-09-25 08:10:04.921000+00:00,fleetDisconnected > 0,10.0,2026-09-25
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-25 15:03:35.367000+00:00,2026-09-25 15:07:50.722000+00:00,fleetDisconnected > 0,9.0,2026-09-25
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-25 15:04:24.340000+00:00,2026-09-25 15:07:48.139000+00:00,fleetDisconnected > 0,8.0,2026-09-25
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-25 15:12:50.722000+00:00,2026-09-25 15:16:33.123000+00:00,fleetDisconnected > 0,9.0,2026-09-25
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-25 15:22:47.288000+00:00,2026-09-25 15:31:14.610000+00:00,fleetDisconnected > 0,13.0,2026-09-25
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-25 15:24:39.715000+00:00,2026-09-25 15:31:38.526000+00:00,fleetDisconnected > 0,12.0,2026-09-25
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-25 16:15:09.454000+00:00,2026-09-25 16:15:59.651000+00:00,fleetDisconnected > 0,6.0,2026-09-25
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-25 16:34:31.940000+00:00,2026-09-25 16:35:33.587000+00:00,fleetDisconnected > 0,6.0,2026-09-25
+R7 Nodo sin reporte,cacao-08-dosel-rest,2026-09-25 17:04:45.216000+00:00,2026-09-25 17:20:06.085000+00:00,fleetDisconnected > 0,20.0,2026-09-25
+R7 Nodo sin reporte,cacao-03-lote3-sdk,2026-09-25 21:04:46.833000+00:00,2026-09-25 21:15:04.983000+00:00,fleetDisconnected > 0,15.0,2026-09-25
+R7 Nodo sin reporte,cacao-06-ferm-paho,2026-09-26 07:04:21.099000+00:00,2026-09-26 07:30:04.036000+00:00,fleetDisconnected > 0,31.0,2026-09-26
+R7 Nodo sin reporte,cacao-10-bodega-mqttjs,2026-09-26 08:04:41.891000+00:00,2026-09-26 08:10:04.303000+00:00,fleetDisconnected > 0,10.0,2026-09-26
+R7 Nodo sin reporte,cacao-08-dosel-rest,2026-09-26 12:41:33.098000+00:00,2026-09-27 00:17:30.282000+00:00,fleetDisconnected > 0,701.0,2026-09-26
+R7 Nodo sin reporte,cacao-06-ferm-paho,2026-09-26 12:41:46.693000+00:00,2026-09-27 00:17:28.907000+00:00,fleetDisconnected > 0,701.0,2026-09-26
+R7 Nodo sin reporte,cacao-07-campo-era5,2026-09-26 12:41:50.823000+00:00,2026-09-27 00:17:29.575000+00:00,fleetDisconnected > 0,701.0,2026-09-26
+R7 Nodo sin reporte,cacao-03-lote3-sdk,2026-09-26 12:41:54.722000+00:00,2026-09-27 00:17:29.361000+00:00,fleetDisconnected > 0,701.0,2026-09-26
+R7 Nodo sin reporte,cacao-10-bodega-mqttjs,2026-09-26 12:41:58.555000+00:00,2026-09-27 00:17:31.064000+00:00,fleetDisconnected > 0,701.0,2026-09-26
+R7 Nodo sin reporte,cacao-05-meteo-feed,2026-09-26 12:47:22.071000+00:00,2026-09-27 00:17:30.152000+00:00,fleetDisconnected > 0,705.0,2026-09-26
+R7 Nodo sin reporte,cacao-04-aire-cams,2026-09-26 12:51:37.286000+00:00,2026-09-27 00:17:30.955000+00:00,fleetDisconnected > 0,701.0,2026-09-26
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-27 00:41:11.751000+00:00,2026-09-27 00:42:56.281000+00:00,fleetDisconnected > 0,7.0,2026-09-26
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-27 01:11:36.885000+00:00,2026-09-27 01:11:57.982000+00:00,fleetDisconnected > 0,5.0,2026-09-26
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-27 02:14:34.638000+00:00,2026-09-27 02:14:47.675000+00:00,fleetDisconnected > 0,5.0,2026-09-26
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-27 03:53:03.706000+00:00,2026-09-27 04:27:23.824000+00:00,fleetDisconnected > 0,39.0,2026-09-26
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-27 03:53:26.150000+00:00,2026-09-27 04:27:09.355000+00:00,fleetDisconnected > 0,39.0,2026-09-26
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-27 05:14:17.044000+00:00,2026-09-27 05:14:39.651000+00:00,fleetDisconnected > 0,5.0,2026-09-27
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-27 06:13:47.652000+00:00,2026-09-27 06:16:42.501000+00:00,fleetDisconnected > 0,8.0,2026-09-27
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-27 06:21:22.426000+00:00,2026-09-27 06:24:15.881000+00:00,fleetDisconnected > 0,8.0,2026-09-27
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-27 06:28:02.265000+00:00,2026-09-27 06:29:44.828000+00:00,fleetDisconnected > 0,7.0,2026-09-27
+R7 Nodo sin reporte,cacao-06-ferm-paho,2026-09-27 06:41:37.090000+00:00,2026-09-27 19:24:01.660000+00:00,fleetDisconnected > 0,767.0,2026-09-27
+R7 Nodo sin reporte,cacao-10-bodega-mqttjs,2026-09-27 06:42:00.579000+00:00,2026-09-27 19:24:04.597000+00:00,fleetDisconnected > 0,767.0,2026-09-27
+R7 Nodo sin reporte,cacao-07-campo-era5,2026-09-27 06:42:17.315000+00:00,2026-09-27 19:24:03.239000+00:00,fleetDisconnected > 0,767.0,2026-09-27
+R7 Nodo sin reporte,cacao-08-dosel-rest,2026-09-27 06:42:17.692000+00:00,2026-09-27 19:24:03.253000+00:00,fleetDisconnected > 0,767.0,2026-09-27
+R7 Nodo sin reporte,cacao-03-lote3-sdk,2026-09-27 06:42:18.010000+00:00,2026-09-27 19:24:03.402000+00:00,fleetDisconnected > 0,767.0,2026-09-27
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-27 06:42:20.198000+00:00,2026-09-27 19:25:26.248000+00:00,fleetDisconnected > 0,768.0,2026-09-27
+R7 Nodo sin reporte,cacao-01-lote1-twin,2026-09-27 06:42:48.702000+00:00,2026-09-27 19:24:39.022000+00:00,fleetDisconnected > 0,767.0,2026-09-27
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-27 06:44:01.613000+00:00,2026-09-27 19:24:56.345000+00:00,fleetDisconnected > 0,766.0,2026-09-27
+R7 Nodo sin reporte,cacao-04-aire-cams,2026-09-27 06:47:51.220000+00:00,2026-09-27 19:24:04.925000+00:00,fleetDisconnected > 0,771.0,2026-09-27
+R7 Nodo sin reporte,cacao-05-meteo-feed,2026-09-27 06:51:54.889000+00:00,2026-09-27 19:24:04.114000+00:00,fleetDisconnected > 0,767.0,2026-09-27
+R7 Nodo sin reporte,cacao-03-lote3-sdk,2026-09-27 21:04:53.298000+00:00,2026-09-27 21:15:11.436000+00:00,fleetDisconnected > 0,15.0,2026-09-27
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-27 21:21:40.737000+00:00,2026-09-27 21:24:14.464000+00:00,fleetDisconnected > 0,8.0,2026-09-27
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-28 01:53:39.521000+00:00,2026-09-28 01:55:32.321000+00:00,fleetDisconnected > 0,7.0,2026-09-27
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-28 03:16:23.245000+00:00,2026-09-28 03:17:29.579000+00:00,fleetDisconnected > 0,6.0,2026-09-27
+R7 Nodo sin reporte,cacao-08-dosel-rest,2026-09-28 06:31:09.683000+00:00,2026-09-28 15:01:52.703000+00:00,fleetDisconnected > 0,516.0,2026-09-28
+R7 Nodo sin reporte,cacao-07-campo-era5,2026-09-28 06:31:19.304000+00:00,2026-09-28 15:01:52.654000+00:00,fleetDisconnected > 0,516.0,2026-09-28
+R7 Nodo sin reporte,cacao-10-bodega-mqttjs,2026-09-28 06:31:21.560000+00:00,2026-09-28 15:01:52.343000+00:00,fleetDisconnected > 0,516.0,2026-09-28
+R7 Nodo sin reporte,cacao-03-lote3-sdk,2026-09-28 06:31:27.623000+00:00,2026-09-28 15:01:52.660000+00:00,fleetDisconnected > 0,515.0,2026-09-28
+R7 Nodo sin reporte,cacao-06-ferm-paho,2026-09-28 06:31:28.935000+00:00,2026-09-28 15:01:51.155000+00:00,fleetDisconnected > 0,515.0,2026-09-28
+R7 Nodo sin reporte,cacao-05-meteo-feed,2026-09-28 06:37:02.193000+00:00,2026-09-28 15:01:53.529000+00:00,fleetDisconnected > 0,520.0,2026-09-28
+R7 Nodo sin reporte,cacao-04-aire-cams,2026-09-28 06:38:36.666000+00:00,2026-09-28 15:01:54.312000+00:00,fleetDisconnected > 0,518.0,2026-09-28
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-28 06:40:38.306000+00:00,2026-09-28 15:03:23.929000+00:00,fleetDisconnected > 0,508.0,2026-09-28
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-28 06:41:21.749000+00:00,2026-09-28 15:06:46.310000+00:00,fleetDisconnected > 0,510.0,2026-09-28
+R7 Nodo sin reporte,cacao-08-dosel-rest,2026-09-28 17:04:48.435000+00:00,2026-09-28 17:20:09.159000+00:00,fleetDisconnected > 0,20.0,2026-09-28
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-28 17:20:16.561000+00:00,2026-09-28 17:21:03.604000+00:00,fleetDisconnected > 0,6.0,2026-09-28
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-28 19:23:35.335000+00:00,2026-09-28 19:24:16.200000+00:00,fleetDisconnected > 0,6.0,2026-09-28
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-28 19:55:19.098000+00:00,2026-09-28 19:56:44.535000+00:00,fleetDisconnected > 0,6.0,2026-09-28
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-28 20:11:48.262000+00:00,2026-09-28 23:31:55.186000+00:00,fleetDisconnected > 0,205.0,2026-09-28
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-28 20:11:57.101000+00:00,2026-09-28 23:32:28.096000+00:00,fleetDisconnected > 0,206.0,2026-09-28
+R7 Nodo sin reporte,cacao-03-lote3-sdk,2026-09-28 21:05:01.893000+00:00,2026-09-28 21:15:11.096000+00:00,fleetDisconnected > 0,15.0,2026-09-28
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-29 03:31:53.181000+00:00,2026-09-29 03:33:12.990000+00:00,fleetDisconnected > 0,6.0,2026-09-28
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-29 03:44:01.417000+00:00,2026-09-29 03:44:36.243000+00:00,fleetDisconnected > 0,6.0,2026-09-28
+R7 Nodo sin reporte,cacao-09-riego-wokwi,2026-09-29 04:03:45.545000+00:00,2026-09-29 04:03:48.221000+00:00,fleetDisconnected > 0,5.0,2026-09-28
+R7 Nodo sin reporte,cacao-02-lote2-wokwi,2026-09-29 04:04:23.074000+00:00,2026-09-29 04:04:24.763000+00:00,fleetDisconnected > 0,5.0,2026-09-28

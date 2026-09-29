@@ -78,7 +78,7 @@ arrow(109, 76, 109, 71.5, GREEN)
 # Capa de operacion
 box(133, 70, 35, 17, "Dashboard 'Cuarto de control'\nbanner, estado de flota, KPI min/max,\n7 graficos, ilustracion del predio\ncon los 10 nodos, alertas, arquitectura", "white", BROWN, fs=8.2)
 box(133, 50, 35, 15, "Views por dispositivo\n(Overview / About / comandos /\nproperties / raw data)", "white", GREEN, fs=8.2)
-box(133, 30, 35, 15, "Rules + acciones\nR1 suelo seco, R2 fermentacion,\nR3 reservorio, R4 AQI, R5 bodega,\nR7 nodo sin reporte -> correo", "white", "#B5462F", fs=8.2)
+box(133, 30, 35, 15, "Rules + acciones\nR1 suelo seco, R2 fermentacion,\nR3 reservorio, R4 AQI,\nR7 nodo sin reporte -> correo", "white", "#B5462F", fs=8.2)
 box(133, 8, 35, 17, "Data Explorer / Query API\nventana 4 dias no continuos\n25, 26, 27 y 28-sep-2026\nmax / min / prom / recuento / suma", "white", BLUE, fs=8.2)
 for y in (78, 57, 37, 16):
     arrow(127.5, 41, 132.5, y, BROWN)
