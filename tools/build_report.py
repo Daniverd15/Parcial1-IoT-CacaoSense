@@ -85,8 +85,10 @@ KEY_VARS = [("cacao-03-lote3-sdk", "soilMoisture", "% VWC"), ("cacao-01-lote1-tw
             ("cacao-04-aire-cams", "aqi", "índice"), ("cacao-06-ferm-paho", "boxTemperature", "°C"),
             ("cacao-09-riego-wokwi", "waterLevel", "%"), ("cacao-08-dosel-rest", "temperature", "°C")]
 SHOTS = [
-    ("01-dashboard-control-room-a.png", "Cuarto de control CacaoSense: estado de flota, clima, aire, riego, KPI mín./máx. y gráficos."),
-    ("01-dashboard-control-room-b.png", "Cuarto de control (continuación): gráficos, mapa de zonas y bloque de alertas."),
+    ("01-dashboard-control-room-a.png", "Cuarto de control CacaoSense: banner, estado de flota, clima, aire, riego, KPI del día y humedad de suelo."),
+    ("01-dashboard-control-room-b.png", "Cuarto de control: gráficos de meteorología, fermentación, aire, lluvia, reservorio y dosel."),
+    ("01-dashboard-control-room-c.png", "Cuarto de control: ilustración del predio con los 10 nodos distribuidos y tabla de zonas."),
+    ("01-dashboard-control-room-d.png", "Cuarto de control: reglas activas y arquitectura de la solución."),
     ("02-flota-dispositivos.png", "Flota de 10 dispositivos sobre las 4 plantillas CacaoSense."),
     ("03-plantillas.png", "Plantillas de dispositivo (Digital Twin) publicadas."),
     ("05-reglas.png", "Reglas configuradas con acción de correo."),
@@ -98,7 +100,6 @@ SHOTS = [
     ("12-wokwi-conectado-central.png", "Nodo Wokwi Conectado en IoT Central con telemetría en vivo."),
     ("13-data-explorer.png", "Data Explorer de IoT Central con la serie de la ventana de 4 días."),
 ]
-
 
 # ----------------------------------------------------------------------------------------------
 # Utilidades de formato
@@ -147,6 +148,11 @@ def fig(doc, path, caption, width=16.5, crop_browser=False):
         w, h = im.size
         row = im.crop((0, int(h * 0.15), w, int(h * 0.15) + 1)).resize((1, 1)).getpixel((0, 0))
         top = int(h * 0.174) if sum(row) > 700 else int(h * 0.118)   # con/sin barra de depuracion de Chrome
+        for y in range(int(h * 0.3)):  # mejor aun: cortar justo encima de la barra cafe de la app (tema CacaoSense)
+            r_, g_, b_ = im.crop((w // 3, y, w // 3 + 200, y + 1)).resize((1, 1)).getpixel((0, 0))
+            if 90 < r_ < 140 and 45 < g_ < 85 and b_ < 50:
+                top = y
+                break
         (EV / "recortes").mkdir(exist_ok=True)
         img = EV / "recortes" / path.name
         # En Wokwi el editor muestra la clave del dispositivo: solo se publica el panel de simulacion.
@@ -280,17 +286,35 @@ def vm_logs():
     cmd = ("journalctl -t cacao-gap --no-pager -o short-iso | tail -40; echo ----; "
            "journalctl -u cacao-03 -u cacao-06 -u cacao-10 --no-pager -o cat | grep -E 'DISCONN|CONNECTED|FIN|CMD|PROP' | tail -40")
     try:
-        out = subprocess.run([SSH, VM, cmd], capture_output=True, text=True, timeout=90).stdout
-        (EV / "log_vm_eventos.txt").write_text(out, encoding="utf-8")
+        out = subprocess.run([SSH, "-o", "ConnectTimeout=10", "-o", "BatchMode=yes", VM, cmd],
+                             capture_output=True, text=True, timeout=90).stdout
+        if out.strip():  # VM apagada desde el 26/09: se conserva el ultimo registro guardado
+            (EV / "log_vm_eventos.txt").write_text(out, encoding="utf-8")
     except Exception:
         pass
     p = EV / "log_vm_eventos.txt"
     return p.read_text(encoding="utf-8").splitlines() if p.exists() else []
 
 
+def local_logs():
+    """Arranques, cortes programados y reinicios del supervisor local (desde el 26/09)."""
+    src = ROOT / "senders" / "logs" / "local_supervisor.log"
+    if src.exists():
+        keep = [l for l in src.read_text(encoding="utf-8").splitlines()
+                if any(k in l for k in ("iniciado", "STOP", "detenido"))]
+        (EV / "log_equipo_local.txt").write_text("\n".join(keep[-40:]) + "\n", encoding="utf-8")
+    p = EV / "log_equipo_local.txt"
+    return p.read_text(encoding="utf-8").splitlines() if p.exists() else []
+
+
 # ----------------------------------------------------------------------------------------------
 def build():
+    global VERSION, COMPLETO
     df = load()
+    # 1.0 solo cuando el ultimo dia de la ventana esta completo (datos hasta ~23:00 hora local)
+    fin = datetime.fromisoformat(DAYS[-1]).replace(tzinfo=COL) + timedelta(hours=20)   # entrega el 28/09 por la noche
+    COMPLETO = bool(len(df)) and df.ts.max() >= pd.Timestamp(fin)
+    VERSION = "1.0" if COMPLETO else "0.95"
     doc = Document()
     sec = doc.sections[0]
     sec.page_width, sec.page_height = Cm(21.59), Cm(27.94)
@@ -325,9 +349,10 @@ def build():
         ["Universidad", "Universidad Autónoma de Bucaramanga (UNAB) · 2026-II"],
         ["Autores", AUTORES],
         ["Aplicación IoT Central", "CacaoSense - Granja de Cacao UNAB · https://cacaosense-unab2026.azureiotcentral.com"],
-        ["Infraestructura Azure", "rg-parcial1-cacao · IoT Central ST2 (centralus) · VM vm-parcial1-cacao (mexicocentral)"],
+        ["Infraestructura", "rg-parcial1-cacao · IoT Central ST2 (centralus) · gateway de borde: VM vm-parcial1-cacao (24–26/09) "
+                            "y equipo local Windows desde el 26/09"],
         ["Ventana de datos", "4 fechas reales: " + ", ".join(DIAS_ES[d] for d in DAYS) + " de 2026"],
-        ["Versión del documento", f"1.0 · generado {datetime.now(COL):%d/%m/%Y %H:%M} (hora Colombia)"],
+        ["Versión del documento", f"{VERSION} · generado {datetime.now(COL):%d/%m/%Y %H:%M} (hora Colombia)"],
     ], widths=[4.5, 12.5], font=9)
     doc.add_page_break()
 
@@ -340,7 +365,12 @@ def build():
                                         "fleet_monitor.py v1.0.0, Wokwi lote2_suelo.ino v1.1.0 y riego.ino v1.1.0."],
         ["0.8", "24/09/2026", AUTORES, "Plantillas v1.0.0 rev. 2: rangos minValue/maxValue para el Digital Twin y telemetría de estado de flota. "
                                         "Identidad visual, dashboard 'Cuarto de control', 5 reglas con correo, cron de desconexiones."],
-        ["1.0", f"{datetime.now(COL):%d/%m/%Y}", AUTORES, "Documento final con la ventana de 4 días reales (24–27/09/2026) y comparativa."],
+        ["0.9", "26/09/2026", AUTORES, "Crédito de Azure for Students agotado: la VM queda desasignada y los emisores 03–08 y 10 pasan a un "
+                                        "equipo local (tools/run_local_fleet.py, mismo código, claves y cortes). Panel rediseñado (banner, "
+                                        "ilustración del predio con los 10 nodos, arquitectura) y respaldo completo (tools/backup_iotc.py)."],
+        [VERSION, f"{datetime.now(COL):%d/%m/%Y}", AUTORES,
+         "Documento final con la ventana de 4 días reales (25–28/09/2026; el 28/09 hasta la hora de generación) y comparativa." if COMPLETO else
+         "Respaldo previo con los datos disponibles hasta la fecha de generación; se regenera al cerrar el 28/09."],
     ], widths=[1.4, 2.2, 3.6, 9.8], font=8.5)
 
     doc.add_heading("Contenido", 1)
@@ -369,7 +399,8 @@ def build():
     table(doc, ["Capa", "Elementos", "Decisión técnica"], [
         ["Dispositivo", "10 nodos: Digital Twin, 2 ESP32 Wokwi, Python SDK, 2 puentes de API, paho, replay CSV, HTTPS, Node.js",
          "Cada origen usa un código o feed distinto; ningún par comparte implementación."],
-        ["Red / telecom", "Wi-Fi Wokwi-GUEST; VM Azure como gateway de borde; propuesta rural 4G/LTE Cat4 (Teltonika RUT241) + Starlink",
+        ["Red / telecom", "Wi-Fi Wokwi-GUEST; gateway de borde: VM Azure (24–26/09) y equipo local desde el 26/09; "
+                          "propuesta rural 4G/LTE Cat4 (Teltonika RUT241) + Starlink",
          "En el predio no hay fibra: LTE con WAN failover satelital, cola local store-and-forward y timestamp de origen."],
         ["Transporte", "MQTT/TLS 1.2 puerto 8883 (SDK, paho, MQTT.js, PubSubClient); HTTPS 443 (nodo 08 y APIs)",
          "Autenticación SAS HMAC-SHA256 por dispositivo; QoS 1 (IoT Hub no soporta QoS 2)."],
@@ -451,23 +482,38 @@ def build():
     doc.add_heading("Huecos detectados en la serie (desconexiones)", 2)
     g = gaps(df)
     table(doc, ["Nodo", "Día", "Desde", "Hasta", "Duración"], g[:40] or [["—", "—", "—", "—", "—"]], widths=[5, 3, 2.5, 2.5, 2.5], font=8)
-    para(doc, "Desconexiones programadas en la VM (cron, hora local): nodo 06 02:00–02:30, nodo 10 03:00–03:10, nodo 08 12:00–12:20 "
-              "(corte de enlace simulado) y nodo 03 16:00–16:15. Los nodos Wokwi presentan además huecos propios: solo transmiten "
-              "mientras la simulación está abierta, y la sustentación reproduce una desconexión y reconexión en vivo.", 9)
+    para(doc, "Desconexiones programadas (hora local): nodo 06 02:00–02:30, nodo 10 03:00–03:10, nodo 08 12:00–12:20 "
+              "(corte de enlace simulado) y nodo 03 16:00–16:15; hasta el 26/09 las ejecutó cron en la VM y desde entonces el "
+              "supervisor local con el mismo horario. Los nodos Wokwi presentan además huecos propios: solo transmiten "
+              "mientras la simulación está abierta, y la sustentación reproduce una desconexión y reconexión en vivo. El 26/09 "
+              "no transmitieron hasta la noche (equipo apagado y cola de compilación de wokwi.com saturada); desde entonces el "
+              "firmware se compila en local con PlatformIO y se simula con Wokwi for VS Code (wokwi/vscode/), sin cambiar el "
+              "código, el ID ni la clave de cada dispositivo.", 9)
+    para(doc, "Desconexión no planificada (26/09): el crédito de la suscripción Azure for Students se agotó, la suscripción pasó a "
+              "solo lectura y la VM quedó desasignada; los nodos 03–08 y 10 dejaron de transmitir a las 07:36 y se restablecieron a "
+              "las 19:17 desde un equipo local con el mismo código y las mismas claves, sin reprovisionar. El hueco es visible en la "
+              "figura 11 y en IoT Central, y demuestra la reconexión de la flota tras la caída del gateway de borde.", 9)
     fig(doc, EV / "09-desconectado.png", "Figura 12. Estado Desconectado en IoT Central.", crop_browser=True)
     logs = vm_logs()
     if logs:
-        doc.add_heading("Registro de sesión de la VM (journalctl)", 2)
+        doc.add_heading("Registro de sesión de la VM (journalctl, hasta el 26/09)", 2)
         p = doc.add_paragraph()
         r = p.add_run("\n".join(logs[-30:]))
+        r.font.size, r.font.name = Pt(6.5), "Consolas"
+    logs = local_logs()
+    if logs:
+        doc.add_heading("Registro del supervisor local (desde el 26/09)", 2)
+        p = doc.add_paragraph()
+        r = p.add_run("\n".join(logs[-25:]))
         r.font.size, r.font.name = Pt(6.5), "Consolas"
 
     # ---------------- 8 Control room
     doc.add_page_break()
     doc.add_heading("8. Cuarto de control, reglas y alertas", 1)
-    para(doc, "El dashboard de aplicación 'Cuarto de control CacaoSense' muestra al mismo tiempo el logo y nombre del escenario, el estado "
-              "de la flota (Connected / Disconnected / Unassociated), KPI de mínimo y máximo del día, siete gráficos de telemetría de las "
-              "variables indispensables, el bloque de reglas y el mapa de zonas dispositivo ↔ lugar físico.")
+    para(doc, "El dashboard de aplicación 'Cuarto de control CacaoSense' muestra al mismo tiempo el banner con el logo y nombre del "
+              "escenario, el estado de la flota (Connected / Disconnected / Unassociated), KPI de mínimo y máximo del día, siete "
+              "gráficos de telemetría de las variables indispensables, una ilustración del predio con los 10 nodos ubicados en su "
+              "zona física (colores por plantilla), la tabla de zonas dispositivo ↔ lugar, el bloque de reglas y la arquitectura.")
     for name, cap in SHOTS:
         if name.startswith(("01", "02", "05", "07")):
             fig(doc, EV / name, "Figura. " + cap, crop_browser=True)
@@ -482,12 +528,15 @@ def build():
     # ---------------- 9 Sustentacion
     doc.add_heading("9. Sustentación: dos códigos en dos equipos", 1)
     bullets(doc, [
-        "Equipo A (portátil): detener el servicio del nodo 03 en la VM (sudo systemctl stop cacao-03) y ejecutar "
+        "Equipo A (portátil 1): el resto de la flota corre en el supervisor local sin el nodo 03 "
+        "(python tools/run_local_fleet.py --sin cacao-03) y en otra terminal se ejecuta "
         "python senders/sdk_device.py cacao-03-lote3-sdk; en IoT Central se ve Connecting → Connected → telemetría cada 15 s.",
-        "Equipo B: abrir los proyectos Wokwi (lote2_suelo y riego) y pulsar Play; el monitor serie muestra WiFi → NTP → DPS → HUB CONNECTED → TX.",
+        "Equipo B (portátil 2): abrir los proyectos Wokwi (wokwi/vscode/lote2 y riego, F1 → Wokwi: Start Simulator); el monitor "
+        "serie muestra WiFi → NTP → DPS → HUB CONNECTED → TX. Cada nodo corre en un único equipo para no duplicar la conexión.",
         "Comandos en vivo: setIrrigation(true) al Lote 3 (sube la humedad ~6 puntos) y setPump(true) al Wokwi #2 (LED azul encendido; rechazo si el nivel < 10 %).",
         "Desconexión controlada: Ctrl+C en el portátil o Stop en Wokwi → hueco en la serie y R7 (fleetDisconnected > 0) → reconexión automática al reanudar.",
-        "El resto de la flota queda en segundo plano en la VM (servicios systemd) y con historial en los 4 días.",
+        "El resto de la flota queda en segundo plano en el supervisor local (reinicio automático y cortes programados) y con "
+        "historial en los 4 días.",
     ])
     for name, cap in SHOTS:
         if name.startswith(("10", "11", "12")):
@@ -497,7 +546,8 @@ def build():
     doc.add_heading("10. Repositorio, seguridad y limitaciones de IoT Central", 1)
     bullets(doc, [
         "Repositorio: README de decisiones, models/ (DTDL), senders/ (Python, Node.js), wokwi/ (dos proyectos), deploy/ (systemd y cron), "
-        "tools/ (administración REST, dashboard, análisis e informe), analisis/ y evidencias/.",
+        "tools/ (administración REST, dashboard, supervisor local run_local_fleet.py, respaldo backup_iotc.py, análisis e informe), "
+        "analisis/ y evidencias/.",
         "Sin secretos en claro: las claves de dispositivo y el token de API viven solo en senders/.env (ignorado por git, permisos 600 en la VM); "
         "los sketches publicados llevan PEGAR_PRIMARY_KEY y la copia con clave usa el prefijo PRIVADO_ (ignorado).",
         "Limitación: la API REST de IoT Central no expone el estado Connected/Disconnected ni permite crear reglas; se resolvió con un "
@@ -510,6 +560,11 @@ def build():
         "18, 20 y 22/09; esos 7 dispositivos de prueba se eliminaron y la flota se re-aprovisionó con IDs nuevos, de modo que la ventana "
         "analizada contiene solo datos recibidos en vivo. Los nodos 01 (Digital Twin) y los modelos de farm.py son simulados, como admite "
         "el enunciado; los nodos 04, 05 y 07 usan fuentes públicas reales (Open-Meteo, CAMS, ERA5).",
+        "Nota de transparencia (26/09): al agotarse el crédito de Azure for Students la suscripción quedó en solo lectura y la VM no "
+        "pudo encenderse. IoT Central siguió recibiendo datos, y los emisores de la VM se trasladaron a un equipo local "
+        "(tools/run_local_fleet.py) que replica los servicios systemd (reinicio automático) y el cron de desconexiones; el "
+        "aprovisionamiento, las claves y los intervalos no cambiaron. Se respaldó la configuración y toda la telemetría "
+        "(tools/backup_iotc.py) ante una posible suspensión de la aplicación.",
     ])
 
     # ---------------- 11 Referencias

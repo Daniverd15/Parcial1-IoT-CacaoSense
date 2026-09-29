@@ -28,3 +28,8 @@ evidencias/*.png
 # Wokwi for VS Code
 secrets.h
 .pio/
+
+# Respaldos locales de IoT Central (incluyen correos de usuarios)
+backups/
+# Estado de flota en tiempo de ejecucion (fleet_monitor.py)
+fleet.json

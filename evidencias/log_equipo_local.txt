@@ -1,0 +1,9 @@
+2026-09-26 19:17:26 supervisor local iniciado
+2026-09-26 19:51:15 supervisor local iniciado
+2026-09-26 20:20:29 supervisor local iniciado
+2026-09-27 01:37:20 supervisor detenido (apagado del equipo por la noche)
+2026-09-27 14:23:56 supervisor local iniciado
+2026-09-27 16:00:02 STOP cacao-03 (desconexion controlada)
+2026-09-28 10:01:46 supervisor local iniciado
+2026-09-28 12:00:02 STOP cacao-08 (desconexion controlada)
+2026-09-28 16:00:03 STOP cacao-03 (desconexion controlada)

@@ -22,7 +22,7 @@ from iotc_admin import call  # noqa: E402
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "analisis"
 OUT.mkdir(exist_ok=True)
-DAYS = ["2026-09-24", "2026-09-25", "2026-09-26", "2026-09-27"]   # 4 fechas con datos reales en vivo
+DAYS = ["2026-09-25", "2026-09-26", "2026-09-27", "2026-09-28"]   # 4 fechas con datos reales en vivo
 COL = timezone(timedelta(hours=-5))
 CAT = json.loads((ROOT / "senders" / "catalog.json").read_text(encoding="utf-8-sig"))["devices"]
 SUM_VARS = {"rainfall"}                  # variables donde la sumatoria tiene sentido fisico
@@ -30,7 +30,7 @@ BROWN, GOLD, GREEN = "#6B3A1E", "#D9A441", "#3E7C3A"
 PALETTE = ["#6B3A1E", "#3E7C3A", "#D9A441", "#2F6DB5", "#B5462F", "#7A5BA6", "#2A9D8F", "#8C8C8C", "#E07A1F", "#1B4332"]
 
 
-DIAS_ES = {"2026-09-24": "Jue 24-sep", "2026-09-25": "Vie 25-sep", "2026-09-26": "Sab 26-sep", "2026-09-27": "Dom 27-sep"}
+DIAS_ES = {"2026-09-24": "Jue 24-sep", "2026-09-28": "Lun 28-sep", "2026-09-25": "Vie 25-sep", "2026-09-26": "Sab 26-sep", "2026-09-27": "Dom 27-sep"}
 
 
 def dia_es(day):

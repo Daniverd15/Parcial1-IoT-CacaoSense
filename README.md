@@ -70,6 +70,13 @@ Alternativa sin la cola de compilación de wokwi.com (usada desde el 25/09): `py
 `wokwi/vscode/{lote2,riego}` (PlatformIO + `wokwi.toml`; la clave va en `src/secrets.h`, ignorado por git), `pio run` y
 en VS Code `F1 → Wokwi: Start Simulator` (una ventana por nodo).
 
+Sin la VM (desde el 26/09, crédito de Azure for Students agotado): `python tools/run_local_fleet.py` corre los emisores
+03–08, 10 y el monitor de flota en un equipo local con reinicio automático y los mismos cortes de `cacao-cron`
+(`--sin cacao-03` deja un nodo para otro equipo en la sustentación); `python tools/wokwi_watchdog.py` reinicia un
+simulador Wokwi de VS Code si su nodo aparece Disconnected; `python tools/backup_iotc.py` respalda configuración y toda la
+telemetría en `backups/` (ignorado por git). Panel: `tools/make_banner.py` y `tools/make_predio.py` generan el banner y la
+ilustración del predio; las imágenes se suben en la UI y sus ids quedan en `IMAGES` de `tools/build_dashboard.py`.
+
 Informe: `python tools/build_report.py --refresh` (consulta IoT Central, rehace estadísticas/gráficos y genera DOCX + PDF).
 
 ## Seguridad
@@ -82,5 +89,5 @@ IoT Central → dispositivo → Conectar.
 El 24/09/2026 se probó la carga diferida (store-and-forward con `iothub-creation-time-utc`, `senders/backfill.py`) con fechas
 18, 20 y 22/09. Para que la app conserve solo datos recibidos en vivo, los 7 dispositivos de esa prueba se eliminaron y la flota
 se re-aprovisionó con IDs nuevos (`tools/rename_ids.py`). El análisis y el informe usan **solo los 4 días recibidos en vivo**
-(24, 25, 26 y 27/09/2026). Los datos de los nodos 01 (Digital Twin) y los modelos de señal de `farm.py` son simulados, como permite
+(25, 26, 27 y 28/09/2026). Los datos de los nodos 01 (Digital Twin) y los modelos de señal de `farm.py` son simulados, como permite
 el enunciado; los de los nodos 04, 05 y 07 provienen de fuentes públicas reales (Open-Meteo/CAMS/ERA5).

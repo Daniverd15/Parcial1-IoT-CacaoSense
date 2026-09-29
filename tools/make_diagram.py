@@ -56,7 +56,7 @@ for (label, col, _), y in zip(nodes, ys):
 
 # Capa de red
 box(47, 76, 35, 12, "Wokwi-GUEST (Wi-Fi 2.4 GHz)\n-> gateway publico Wokwi\n(nodos 02 y 09)", "white", GREEN, fs=8)
-box(47, 52, 35, 19, "VM Azure vm-parcial1-cacao\n(Ubuntu 22.04, mexicocentral)\nsystemd: cacao-03..10 + fleet\nsimula el gateway de borde del predio", "white", BLUE, fs=8)
+box(47, 52, 35, 19, "Gateway de borde (nodos 03-08, 10 + fleet)\n24-26/09: VM Azure vm-parcial1-cacao\n(Ubuntu 22.04, systemd + cron)\ndesde 26/09: equipo local Windows\n(run_local_fleet.py, mismo codigo y cortes)", "white", BLUE, fs=7.6)
 box(47, 30, 35, 17, "Enlace rural propuesto:\nRouter 4G/LTE Cat4 (Teltonika RUT241)\n+ respaldo Starlink\ncola local store-and-forward\n(iothub-creation-time-utc)", "white", BROWN, fs=8)
 box(47, 8, 35, 17, "Seguridad de transporte\nMQTT/TLS 1.2 puerto 8883\nHTTPS 443 (nodo 08 y APIs)\nSAS HMAC-SHA256 por dispositivo\nQoS 0/1 (IoT Hub no admite QoS 2)", "white", GREY, fs=8)
 for y in ys:
@@ -76,10 +76,10 @@ arrow(90.5, 16, 82.5, 56, BLUE, "API ->", style="-|>")
 arrow(109, 76, 109, 71.5, GREEN)
 
 # Capa de operacion
-box(133, 70, 35, 17, "Dashboard 'Cuarto de control'\nlogo, estado de flota,\nKPI min/max, 7 graficos,\nmapa de zonas, alertas", "white", BROWN, fs=8.2)
+box(133, 70, 35, 17, "Dashboard 'Cuarto de control'\nbanner, estado de flota, KPI min/max,\n7 graficos, ilustracion del predio\ncon los 10 nodos, alertas, arquitectura", "white", BROWN, fs=8.2)
 box(133, 50, 35, 15, "Views por dispositivo\n(Overview / About / comandos /\nproperties / raw data)", "white", GREEN, fs=8.2)
 box(133, 30, 35, 15, "Rules + acciones\nR1 suelo seco, R2 fermentacion,\nR3 reservorio, R4 AQI, R5 bodega,\nR7 nodo sin reporte -> correo", "white", "#B5462F", fs=8.2)
-box(133, 8, 35, 17, "Data Explorer / Query API\nventana 4 dias no continuos\n18, 20, 22 y 24-sep-2026\nmax / min / prom / recuento / suma", "white", BLUE, fs=8.2)
+box(133, 8, 35, 17, "Data Explorer / Query API\nventana 4 dias no continuos\n25, 26, 27 y 28-sep-2026\nmax / min / prom / recuento / suma", "white", BLUE, fs=8.2)
 for y in (78, 57, 37, 16):
     arrow(127.5, 41, 132.5, y, BROWN)
 arrow(132.5, 35, 127.5, 64, "#B5462F", "comando", ls="--")
